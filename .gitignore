@@ -1,0 +1,5 @@
+site/data/
+__pycache__/
+*.tmp
+.claude/
+_site/

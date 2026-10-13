@@ -1,0 +1,83 @@
+name: update
+
+# GitHub 예약 실행은 10분 간격이면 자주 밀리거나 빠진다.
+# 그래서 1시간마다 한 번 실행하고, ops/loop.py 가 그 안에서 10분 간격으로 6번 갱신·배포한다.
+# 배포는 gh-pages 브랜치로 한다 (Settings → Pages → Branch: gh-pages / root).
+on:
+  schedule:
+    - cron: "5 * * * 1-5"      # 매시 05분, 월 09:05 ~ 토 08:05 KST
+  push:
+    branches: [main]           # 브리핑·사이트 수정 시 바로 1회 배포
+  workflow_dispatch:
+    inputs:
+      daily:
+        description: "구성종목·차트 전체 재수집"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update
+  cancel-in-progress: true     # 새 실행이 오면 이전 반복은 정리
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: KST 날짜
+        id: kst
+        run: |
+          echo "date=$(TZ=Asia/Seoul date +%Y%m%d)" >> "$GITHUB_OUTPUT"
+          echo "hour=$(TZ=Asia/Seoul date +%-H)" >> "$GITHUB_OUTPUT"
+
+      # 하루 1번 수집한 데이터(구성종목·차트, ~20MB)는 Actions 캐시에 보관
+      - name: 일간 데이터 복원
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            site/data/etf
+            site/data/universe.json
+            site/data/holdings.json
+            site/data/stocks.json
+          key: daily-v3-${{ steps.kst.outputs.date }}
+          restore-keys: daily-v3-
+
+      - name: 직전 live.json 가져오기 (마지막 추정 순위 유지용)
+        continue-on-error: true
+        run: |
+          curl -sf "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/data/live.json" -o site/data/live.json || true
+
+      - name: 일간 수집 (매일 07시 이후 첫 실행)
+        id: daily
+        if: inputs.daily || steps.cache.outputs.cache-hit != 'true' && (steps.kst.outputs.hour >= 7 || steps.cache.outputs.cache-matched-key == '')
+        working-directory: pipeline
+        run: python daily.py
+
+      - name: 일간 데이터 저장
+        if: steps.daily.outcome == 'success'
+        continue-on-error: true   # 같은 날 수동 재수집 시 키 중복은 무시
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            site/data/etf
+            site/data/universe.json
+            site/data/holdings.json
+            site/data/stocks.json
+          key: daily-v3-${{ steps.kst.outputs.date }}
+
+      - name: 실시간 추정 + 배포 (예약 실행이면 10분 간격 6회)
+        env:
+          LOOPS: ${{ github.event_name == 'schedule' && '6' || '1' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ops/loop.py
