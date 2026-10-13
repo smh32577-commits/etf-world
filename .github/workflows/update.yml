@@ -50,8 +50,8 @@ jobs:
             site/data/universe.json
             site/data/holdings.json
             site/data/stocks.json
-          key: daily-v3-${{ steps.kst.outputs.date }}
-          restore-keys: daily-v3-
+          key: daily-v4-${{ steps.kst.outputs.date }}
+          restore-keys: daily-v4-
 
       - name: 직전 live.json 가져오기 (마지막 추정 순위 유지용)
         continue-on-error: true
@@ -74,7 +74,7 @@ jobs:
             site/data/universe.json
             site/data/holdings.json
             site/data/stocks.json
-          key: daily-v3-${{ steps.kst.outputs.date }}
+          key: daily-v4-${{ steps.kst.outputs.date }}
 
       - name: 실시간 추정 + 배포 (예약 실행이면 10분 간격 6회)
         env:

@@ -4,7 +4,7 @@
 
   const $app = document.getElementById("app");
   const cache = {};
-  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false };
+  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false };
 
   // ── 데이터 ─────────────────────────────────────────────
   async function getJSON(path, { fresh = false } = {}) {
@@ -202,6 +202,36 @@
     return `<div class="list">${rows}</div><p class="note">${note} 미국 상장 종목 비중 50% 이상이거나 이름에 '미국'이 들어간 ETF ${fmt(us.n)}개 중, 레버리지·인버스·채권형과 시총 100억 미만은 제외했어요.</p>`;
   }
 
+  // ── 국내 ETF ──────────────────────────────────────────
+  const KR_TABS = [["best", "수익률 상위"], ["worst", "수익률 하위"], ["new", "신규상장"], ["flow", "기관·외국인 순매수"]];
+  const ymd = s => s ? `${s.slice(2, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}` : "";
+  const eokSigned = v => `${v > 0 ? "+" : ""}${fmt(v, Math.abs(v) < 10 ? 1 : 0)}억`;
+  function krBody(live, key) {
+    const kr = live.rank.kr;
+    const list = (kr?.[key] || []).slice(0, 5);
+    if (!list.length) return `<div class="empty">데이터가 없어요.</div>`;
+    const rows = list.map((e, i) => {
+      if (key === "new") return etfRow(e, { idx: i + 1, plain: true,
+        meta: `<b>${ymd(e.ls)} 상장</b>${e.iss ? " · " + esc(e.iss) : ""}${e.top?.length ? `<div class="why-dr">${esc(e.top.join(" · "))}</div>` : ""}`,
+        side: priceSide(e.p, e.ch) });
+      if (key === "flow") {
+        const sum = e.f + e.o;
+        return etfRow(e, { idx: i + 1, plain: true,
+          meta: `외국인 <span class="${cls(e.f)}">${eokSigned(e.f)}</span> · 기관 <span class="${cls(e.o)}">${eokSigned(e.o)}</span>`,
+          side: `<span class="badge-chg ${cls(sum)}">${eokSigned(sum)}</span>` });
+      }
+      return etfRow(e, { idx: i + 1, plain: true, meta: esc((e.top || []).join(" · ")), side: badgeSide(e.r) });
+    }).join("");
+    const asOf = live.rank.trend?.asOf ? fmtDate(live.rank.trend.asOf) + " 종가 기준 " : "";
+    const note = {
+      best: `${asOf}최근 1개월(20거래일) 수익률이에요. 국내 주식형 ETF ${fmt(kr.n)}개 대상이에요(레버리지·인버스·선물형, 시총 100억 미만 제외).`,
+      worst: `${asOf}최근 1개월(20거래일) 수익률이에요. 국내 주식형 ETF ${fmt(kr.n)}개 대상이에요(레버리지·인버스·선물형, 시총 100억 미만 제외).`,
+      new: "가장 최근에 상장한 ETF예요. 오른쪽은 지금 가격과 오늘 등락률이에요.",
+      flow: `${ymd(kr.flowDate)} 외국인과 기관이 함께 순매수한 ETF를 합산 금액(순매수 수량 × 종가) 순으로 보여줘요. 금리·채권형, 레버리지·인버스는 제외했어요. 기관 매매에는 유동성공급자(LP) 물량이 섞여 있어요.`,
+    }[key];
+    return `<div class="list">${rows}</div><p class="note">${note}</p>`;
+  }
+
   // ── 홈 ────────────────────────────────────────────────
   const RANK_TABS = [
     ["gainers", "상승"], ["losers", "하락"], ["amount", "거래대금"], ["surge", "거래량 급증"], ["up", "내일 HOT ↑"], ["down", "내일 HOT ↓"],
@@ -311,6 +341,13 @@
         <div class="list" id="rankList">${rankRows(live, state.rankTab, why)}</div>
         <p class="note" id="rankNote">${rankNote(live, state.rankTab)}</p>
       </section>
+
+      ${r.kr ? `<section class="card">
+        <div class="card-head" style="margin-bottom:10px"><div class="card-title">국내 ETF</div></div>
+        <div class="chips mini" role="tablist">${KR_TABS.map(([k, l]) =>
+          `<button class="chip ${k === state.krTab ? "on" : ""}" data-kr="${k}">${l}</button>`).join("")}</div>
+        <div id="krBody">${krBody(live, state.krTab)}</div>
+      </section>` : ""}
 
       ${r.us ? `<section class="card">
         <div class="card-head" style="margin-bottom:12px"><div class="card-title">미국 ETF</div>
@@ -669,7 +706,7 @@
   });
 
   document.addEventListener("click", ev => {
-    const t = ev.target.closest("[data-seg],[data-act],[data-tag],[data-go],[data-rank]");
+    const t = ev.target.closest("[data-seg],[data-act],[data-tag],[data-go],[data-rank],[data-kr]");
     if (!t) return;
     if (t.dataset.go) { location.hash = t.dataset.go; return; }
     if (t.dataset.seg) {
@@ -694,6 +731,12 @@
       }
       state[t.dataset.seg] = t.dataset.v;
       render();
+      return;
+    }
+    if (t.dataset.kr) {
+      state.krTab = t.dataset.kr;
+      t.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === t));
+      base().then(({ live }) => { document.getElementById("krBody").innerHTML = krBody(live, state.krTab); });
       return;
     }
     if (t.dataset.rank) {

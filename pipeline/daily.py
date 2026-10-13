@@ -69,6 +69,17 @@ def fetch_chart(code):
     return [[r["localDate"], r["closePrice"], r["accumulatedTradingVolume"]] for r in rows]
 
 
+def fetch_flow(code):
+    """마지막 거래일 외국인·기관 순매수 → [날짜, 외국인(억), 기관(억)]. 금액 = 순매수 수량 × 종가"""
+    rows = get_json(f"https://m.stock.naver.com/api/stock/{code}/trend?pageSize=1")
+    if not rows:
+        return None
+    r = rows[0]
+    close = num(r.get("closePrice")) or 0
+    f, o = num(r.get("foreignerPureBuyQuant")) or 0, num(r.get("organPureBuyQuant")) or 0
+    return [r["bizdate"], round(f * close / 1e8, 1), round(o * close / 1e8, 1)]
+
+
 def build_one(item):
     code = item["itemcode"]
     holds, ref = fetch_components(code)
@@ -80,7 +91,11 @@ def build_one(item):
         chart = fetch_chart(code)
     except Exception:  # noqa: BLE001
         chart = []
-    return code, holds, ref, an, chart
+    try:
+        flow = fetch_flow(code)
+    except Exception:  # noqa: BLE001
+        flow = None
+    return code, holds, ref, an, chart, flow
 
 
 def main(limit=None):
@@ -103,9 +118,9 @@ def main(limit=None):
             if prev is None:
                 continue
             holds, ref, an, chart = prev["holdings"], prev.get("hDate"), {}, prev.get("chart", [])
-            meta, rets = prev.get("meta", {}), prev.get("returns", {})
+            meta, rets, flow = prev.get("meta", {}), prev.get("returns", {}), prev.get("flow")
         else:
-            _, holds, ref, an, chart = res
+            _, holds, ref, an, chart, flow = res
             div = an.get("dividend") or {}
             meta = {
                 "issuer": an.get("issuerName"),
@@ -142,7 +157,7 @@ def main(limit=None):
             "countries": [[s["detailTypeCode"], s["weight"]] for s in an.get("countryPortfolioList") or [] if s["weight"]],
             "assets": [[s["detailTypeCode"], s["weight"]] for s in an.get("assetPortfolioList") or [] if s["weight"]],
             "flows": an.get("cumulativeNetInflowList"),
-            "holdings": holds, "hDate": ref, "chart": chart,
+            "holdings": holds, "hDate": ref, "chart": chart, "flow": flow,
         } if res is not None else {**load(f"etf/{code}.json"), "tags": tags, "flags": flags}
         save(f"etf/{code}.json", detail)
 
@@ -154,6 +169,7 @@ def main(limit=None):
             "r1y": rets.get("Y1"), "avg20": round(avg20) if avg20 else None,
             "w1": w1, "d10": d10, "m1": m1, "asOf": done[-1][0] if done else None,
             "usW": round(us_w, 1), "krW": round(kr_w, 1), "nh": len(holds),
+            "ls": meta.get("listed"), "fl": flow,
             "top": [h["n"] for h in holds if h["t"] != "현금"][:3],
         })
 

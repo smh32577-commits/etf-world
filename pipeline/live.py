@@ -240,6 +240,27 @@ def main():
     us_up = sorted(us_live, key=lambda c: -etfs[c]["ch"])[:10]
     us_down = sorted(us_live, key=lambda c: etfs[c]["ch"])[:10]
 
+    # ── 국내 ETF: 네이버 분류 '국내 시장지수·업종/테마', 레버리지·인버스·선물형(롱숏 등) 제외, 시총 100억 이상 ──
+    def leveraged(c):
+        u = universe.get(c) or {}
+        return bool({"lev", "inv"} & set(u.get("f", []))) or "숏" in u.get("n", "")
+    kr_all = [c for c, e in etfs.items() if e["mc"] >= 100 and (universe.get(c) or {}).get("tab") in (1, 2)
+              and not leveraged(c) and "futures" not in universe[c].get("f", [])]
+    kr_m1 = [c for c in kr_all if universe[c].get("m1") is not None]
+    kr_best = sorted(kr_m1, key=lambda c: -universe[c]["m1"])[:10]
+    kr_worst = sorted(kr_m1, key=lambda c: universe[c]["m1"])[:10]
+    # 신규상장: 전체 ETF 중 상장일 최신순
+    kr_new = sorted((c for c in etfs if (universe.get(c) or {}).get("ls")), key=lambda c: universe[c]["ls"], reverse=True)[:5]
+    # 기관·외국인 순매수: 마지막 확정 거래일에 둘 다 순매수한 ETF, 합산 금액 순. 금리·채권형·레버리지·인버스 제외
+    flow_has = [c for c in etfs if (universe.get(c) or {}).get("fl") and not parking(c) and not leveraged(c)]
+    flow_date = max((universe[c]["fl"][0] for c in flow_has), default=None)
+    flow_both = [c for c in flow_has if universe[c]["fl"][0] == flow_date and universe[c]["fl"][1] > 0 and universe[c]["fl"][2] > 0]
+    flow_top = sorted(flow_both, key=lambda c: -(universe[c]["fl"][1] + universe[c]["fl"][2]))[:10]
+
+    def kr_row(c, **extra):
+        u, e = universe[c], etfs[c]
+        return {"c": c, "n": u["n"], "p": e["p"], "ch": e["ch"], "top": u.get("top", [])[:3], **extra}
+
     # ── 등락 이유: 순위에 오른 ETF의 구성종목별 기여도 (비중 × 등락률) ──
     ranked = set(gainers + losers + amount + [c for c, _ in surge[:15]] + us_up + us_down)
     details = {c: (load(f"etf/{c}.json") or {}).get("holdings", []) for c in ranked}
@@ -358,6 +379,14 @@ def main():
                 "up": [pack(c) for c in us_up],
                 "down": [pack(c) for c in us_down],
                 "n": len(us_all),
+            },
+            "kr": {
+                "best": [kr_row(c, r=universe[c]["m1"]) for c in kr_best],
+                "worst": [kr_row(c, r=universe[c]["m1"]) for c in kr_worst],
+                "new": [kr_row(c, ls=universe[c]["ls"], iss=universe[c].get("is")) for c in kr_new],
+                "flow": [kr_row(c, f=universe[c]["fl"][1], o=universe[c]["fl"][2]) for c in flow_top],
+                "flowDate": flow_date,
+                "n": len(kr_all),
             },
         },
     })
