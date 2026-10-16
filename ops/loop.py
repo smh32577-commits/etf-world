@@ -57,10 +57,11 @@ def render_og():
     common = [chrome, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
               "--blink-settings=preferredColorScheme=1",            # 라이트 모드
               "--window-size=600,315", "--virtual-time-budget=15000"]
+    kst = {**os.environ, "TZ": "Asia/Seoul"}                    # 화면 시각을 한국 시간으로
     try:
         subprocess.run(common + ["--force-device-scale-factor=2", f"--screenshot={os.path.join(OUT, 'og.png')}", page],
-                       check=True, timeout=90, capture_output=True)
-        dom = subprocess.run(common + ["--dump-dom", page], check=True, timeout=90,
+                       check=True, timeout=90, capture_output=True, env=kst)
+        dom = subprocess.run(common + ["--dump-dom", page], check=True, timeout=90, env=kst,
                              capture_output=True, text=True, encoding="utf-8").stdout
     except Exception as e:  # noqa: BLE001
         print("미리보기 이미지 실패:", e, flush=True)
