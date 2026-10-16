@@ -353,3 +353,18 @@ details.tstories > summary::-webkit-details-marker { display: none; }
   .badge-chg { min-width: 64px; font-size: 14px; padding: 6px 8px; }
   .avatar { width: 36px; height: 36px; }
 }
+
+/* ── 링크 미리보기 이미지 (?og) ── ops/loop.py 가 600×315 화면을 2배로 찍어 og.png 로 배포 */
+html.og .top, html.og .tabbar, html.og #app > :not(.topline):not(.market) { display: none; }
+html.og .page { max-width: none; padding: 14px 18px; }
+html.og .topline { padding: 0 2px 10px; display: flex; justify-content: space-between; align-items: center; }
+html.og .topline::after { content: "ETF 월드 · 서울 WM센터"; font-size: 13px; font-weight: 700; color: var(--text-2); }
+html.og .market { display: grid; grid-template-columns: 1fr 1.15fr; column-gap: 18px; align-items: center; margin: 0; padding: 18px; }
+html.og .market > * { grid-column: 1; }
+html.og .market > .heat { grid-column: 2; grid-row: 1 / span 6; margin: 0; }
+html.og .market > .card-sub:last-child { display: none; }
+html.og .market .mk-head { font-size: 22px; margin: 4px 0 14px; }
+html.og .breadth-lbl { font-size: 12px; }
+html.og .hc { min-height: 0; padding: 9px 10px 8px; border-radius: 10px; }
+html.og .hc .ht { font-size: 12px; }
+html.og .hc .hv { font-size: 16px; }
