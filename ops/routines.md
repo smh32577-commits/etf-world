@@ -1,10 +1,12 @@
 # 자동 브리핑 예약 실행 (Claude Code Routines)
 
+장 전 08:00 · 장중 11:00, 14:00 · 장 마감 15:40, 평일 하루 4회.
+
 Claude Code에서 `/schedule` 로 만든다. 클라우드에서 실행되므로 PC를 꺼둬도 된다.
 **사전 조건:** Claude 계정에 GitHub 연결 (`/web-setup` 또는 https://claude.ai/connect-github). 안 되어 있으면 생성 시 `github_token_missing` 오류가 난다.
 
 Claude Code에 이렇게 말하면 된다:
-> ops/routines.md 대로 자동 브리핑 예약 실행 두 개를 만들어줘. 저장소는 `<내 GitHub 계정>/etf-world` 야.
+> ops/routines.md 대로 자동 브리핑 예약 실행 세 개를 만들어줘. 저장소는 `<내 GitHub 계정>/etf-world` 야.
 
 ## 공통 설정
 | 항목 | 값 |
@@ -37,7 +39,29 @@ Claude Code에 이렇게 말하면 된다:
 마지막에 헤드라인, 항목 제목, 커밋 해시를 짧게 보고한다.
 ```
 
-## 2) 장 마감 종합 — 평일 15:40 KST
+## 2) 장중 브리핑 — 평일 11:00 · 14:00 KST
+- cron (UTC): `0 2,5 * * 1-5`  (= 월~금 11:00, 14:00 KST)
+- 프롬프트:
+
+```
+너는 GitHub 저장소 <계정>/etf-world(작업 디렉터리에 체크아웃됨)의 '장중' ETF 브리핑을 작성해서 main 브랜치에 푸시하는 에이전트다.
+먼저 저장소 루트의 CLAUDE.md 와 BRIEFING.md 를 읽고 그 절차·작성 원칙·JSON 형식을 그대로 따른다.
+
+회차: session "장중 HH시", 파일 id YYYY-MM-DD-mid-HHMM (YYYY-MM-DD = `TZ=Asia/Seoul date +%F`, HHMM·HH = `TZ=Asia/Seoul date +%H00`·`+%-H`)
+초점: 오늘 장 시작부터 지금까지 국내 상장 ETF 흐름과 그 원인. 숫자는 지금 시점 기준이라 장 마감까지 바뀔 수 있다는 점을 시황 points 에 한 줄 밝힌다.
+
+단계
+1. `cd pipeline && python3 -X utf8 daily.py && python3 -X utf8 news.py && python3 -X utf8 live.py`. daily·live 가 실패하면 원인을 출력하고 커밋 없이 종료.
+2. site/data/live.json 의 mode 가 "official"(KRX 정규장)이 아니면 오늘은 휴장이다. 아무것도 커밋하지 말고 "휴장"이라고 보고하고 종료.
+3. `python3 -X utf8 brief_targets.py 8` 와 live.json 의 rank.gainers / losers / amount / surge(dr = 등락을 이끈 구성종목)를 재료로 쓴다. 같은 이야기는 한 항목으로 묶고 항목은 3~5개.
+4. site/data/news.json 의 최근 헤드라인으로 실마리를 잡고, WebSearch/WebFetch 로 오늘 기사를 읽어 원인을 확인한다. 기사 날짜를 반드시 확인.
+5. site/briefs/<id>.json 작성, 같은 내용을 latest.json 에도 저장, index.json 맨 앞에 {id,date,session,generatedAt} 추가(같은 id면 교체). python3 로 JSON 유효성 확인.
+6. `git pull --rebase origin main && git add site/briefs && git commit -m "브리핑: YYYY-MM-DD 장중 HH시" && git push origin main`. site/data/ 는 커밋하지 않는다. 다른 파일은 수정하지 않는다.
+
+마지막에 헤드라인, 항목 제목, 커밋 해시를 짧게 보고한다.
+```
+
+## 3) 장 마감 종합 — 평일 15:40 KST
 - cron (UTC): `40 6 * * 1-5`  (= 월~금 15:40 KST)
 - 프롬프트:
 

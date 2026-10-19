@@ -4,7 +4,7 @@
 
   const $app = document.getElementById("app");
   const cache = {};
-  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false };
+  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false, newsTag: "전체", newsAll: false };
 
   // ── 데이터 ─────────────────────────────────────────────
   async function getJSON(path, { fresh = false } = {}) {
@@ -26,14 +26,19 @@
   const getBrief = () => getBriefFile("latest");
   const getBriefIndex = () => getBriefFile("index").then(x => x?.briefs || []);
   const getTrends = () => getBriefFile("trends");
+  const getNews = () => getJSON("news.json").catch(() => null);
 
   setInterval(async () => {                       // 2분마다 최신 live.json 확인
     try {
       const prev = cache["live.json"]?.updated;
       const live = await getJSON("live.json", { fresh: true });
-      if (live.updated !== prev && !document.activeElement?.matches("input")) render();
+      if (live.updated === prev) return;
+      delete cache["news.json"];                  // 뉴스·브리핑도 같은 주기로 새로 읽기
+      for (const k of Object.keys(briefCache)) delete briefCache[k];
+      if (!document.activeElement?.matches("input")) render();
     } catch (_) { /* ignore */ }
   }, 120000);
+
 
   // ── 저장소 (즐겨찾기, 보유수량) ──────────────────────────
   const store = {
@@ -92,6 +97,46 @@
     const at = live.rank.hotAt ? `${hhmm(live.rank.hotAt)} 기준 마지막 추정 순위예요. ` : "";
     if (live.mode === "official") return `${at}지금은 KRX 정규장이라 공식 iNAV가 실시간으로 나와요.`;
     return `${at}휴장 구간이라 추정을 잠시 멈췄어요.`;
+  }
+
+  // ── 실시간 뉴스 ─────────────────────────────────────────
+  const ago = iso => {
+    const m = Math.max(0, Math.round((Date.now() - new Date(iso)) / 60000));
+    return m < 1 ? "방금" : m < 60 ? `${m}분 전` : m < 1440 ? `${Math.floor(m / 60)}시간 전` : hhmm(iso);
+  };
+  const newsLine = it => `<a class="nline" href="${esc(it.u)}" target="_blank" rel="noopener">
+    <span class="nt">${esc(it.t)}</span>
+    <span class="nm">${esc(it.s)} · ${ago(it.at)}${it.tags.filter(t => t !== "ETF").slice(0, 2).map(t => ` <span class="tag">${esc(t)}</span>`).join("")}</span></a>`;
+  function newsBody(news) {
+    const f = state.newsTag;
+    const list = news.items.filter(it => f === "전체" || it.tags.includes(f));
+    const n = state.newsAll ? 20 : 6;
+    if (!list.length) return `<div class="empty">관련 헤드라인이 아직 없어요.</div>`;
+    return `<div class="nlist">${list.slice(0, n).map(newsLine).join("")}</div>
+      ${list.length > 6 ? `<button class="btn-more" data-act="newsAll">${state.newsAll ? "접기" : "헤드라인 더 보기"}</button>` : ""}`;
+  }
+  function newsCard(news) {
+    if (!news?.items?.length) return "";
+    const cnt = {};
+    for (const it of news.items) for (const t of it.tags) cnt[t] = (cnt[t] || 0) + 1;
+    const tags = ["전체", ...Object.entries(cnt).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([t]) => t)];
+    if (!tags.includes(state.newsTag)) state.newsTag = "전체";
+    return `<section class="card">
+      <div class="card-head"><div><div class="card-title">실시간 뉴스</div>
+        <div class="card-sub">${esc(news.sources.join(" · "))} 헤드라인 · ${hhmm(news.updated)} 갱신 · 10분 간격</div></div></div>
+      <div class="chips mini" role="tablist">${tags.map(t => `<button class="chip ${t === state.newsTag ? "on" : ""}" data-news="${esc(t)}">${esc(t)}</button>`).join("")}</div>
+      <div id="newsBody">${newsBody(news)}</div>
+      <p class="note">언론사 RSS 헤드라인을 자동으로 모은 거예요. 제목을 누르면 기사 원문이 열려요.</p>
+    </section>`;
+  }
+  function newsForEtf(news, tags) {
+    const want = (tags || []).filter(t => !["레버리지", "인버스", "액티브"].includes(t));
+    if (!news?.items || !want.length) return "";
+    const list = news.items.filter(it => it.tags.some(t => want.includes(t))).slice(0, 4);
+    if (!list.length) return "";
+    return `<section class="card"><div class="card-head"><div><div class="card-title">관련 뉴스</div>
+      <div class="card-sub">${esc(want.slice(0, 3).join(" · "))} 헤드라인 · ${hhmm(news.updated)} 갱신</div></div></div>
+      <div class="nlist">${list.map(newsLine).join("")}</div></section>`;
   }
 
   // ── 브리핑 ─────────────────────────────────────────────
@@ -264,7 +309,8 @@
   }
 
   async function home() {
-    const [{ live, U }, b, bIdx, tr] = await Promise.all([base(), getBrief(), getBriefIndex(), getTrends()]);
+    const [{ live, U }, b, bIdx, tr, news] = await Promise.all([base(), getBrief(), getBriefIndex(), getTrends(), getNews()]);
+    state.news = news;
     state.trends = tr;
     const r = live.rank;
     if (!state.rankTab) state.rankTab = live.mode === "live" ? "up" : "gainers";
@@ -333,6 +379,9 @@
         <div class="card-sub" style="margin-top:10px">테마별 시가총액 가중 평균 · 많이 움직인 테마 순 · 색이 진할수록 큰 변동</div>
       </section>
 
+      ${briefToday ? briefCardC : ""}
+      ${newsCard(news)}
+
       <section class="card">
         <div class="card-head" style="margin-bottom:10px"><div class="card-title">순위</div>
           <a class="more" id="rankMore" href="${state.rankTab === "up" || state.rankTab === "down" ? "#/hot" : "#/find"}">더 보기</a></div>
@@ -362,7 +411,7 @@
         <div id="trendBody">${trendBody(live, tr, state.trendKey)}</div>
       </section>
 
-      ${briefCardC}
+      ${briefToday ? "" : briefCardC}
       ${myCard}
       ${footer(live)}`;
   }
@@ -495,7 +544,7 @@
   // ── 상세 ──────────────────────────────────────────────
   async function detail(code) {
     $app.innerHTML = `<div style="padding-top:24px">${skeleton(6)}</div>`;
-    const [{ live, U }, d, quotes, b] = await Promise.all([base(), getJSON(`etf/${code}.json`), getJSON("quotes.json").catch(() => ({ q: {} })), getBrief()]);
+    const [{ live, U }, d, quotes, b, news] = await Promise.all([base(), getJSON(`etf/${code}.json`), getJSON("quotes.json").catch(() => ({ q: {} })), getBrief(), getNews()]);
     const bItem = b?.items.find(it => it.codes.includes(code));
     const e = live.etfs[code] || {};
     const u = U[code] || {};
@@ -516,6 +565,7 @@
         <div class="d-chg ${cls(e.ch)}">${pct(e.ch)} <span style="color:var(--text-3);font-weight:500;font-size:14px">오늘</span></div>
       </div>
       ${bItem ? `<section class="card"><div class="card-head"><div><div class="card-title">오늘 왜 움직였나</div><div class="card-sub">${briefMeta(b)}</div></div></div>${briefItem(bItem, U, { open: true })}</section>` : ""}
+      ${newsForEtf(news, d.tags)}
       ${inavCard(d, e, live, prem)}
       <section class="card">
         <div class="card-head"><div class="card-title">차트</div>${seg("range", [["1M", "1개월"], ["3M", "3개월"], ["6M", "6개월"], ["1Y", "1년"]], state.chartRange)}</div>
@@ -706,7 +756,7 @@
   });
 
   document.addEventListener("click", ev => {
-    const t = ev.target.closest("[data-seg],[data-act],[data-tag],[data-go],[data-rank],[data-kr]");
+    const t = ev.target.closest("[data-seg],[data-act],[data-tag],[data-go],[data-rank],[data-kr],[data-news]");
     if (!t) return;
     if (t.dataset.go) { location.hash = t.dataset.go; return; }
     if (t.dataset.seg) {
@@ -731,6 +781,12 @@
       }
       state[t.dataset.seg] = t.dataset.v;
       render();
+      return;
+    }
+    if (t.dataset.news) {
+      state.newsTag = t.dataset.news; state.newsAll = false;
+      t.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === t));
+      if (state.news) document.getElementById("newsBody").innerHTML = newsBody(state.news);
       return;
     }
     if (t.dataset.kr) {
@@ -759,6 +815,7 @@
     if (act === "summary") t.classList.toggle("open");
     else if (act === "fav") { toggleFav(t.dataset.code); t.classList.toggle("on", isFav(t.dataset.code)); }
     else if (act === "more") { state.find.limit += 40; base().then(({ live, uni }) => drawResults(live, uni)); }
+    else if (act === "newsAll") { state.newsAll = !state.newsAll; if (state.news) document.getElementById("newsBody").innerHTML = newsBody(state.news); }
     else if (act === "holdAll") { state.holdAll = !state.holdAll; const [d, q] = document.getElementById("holdings")._data; drawHoldings(d, q); }
   });
 

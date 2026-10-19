@@ -9,14 +9,15 @@ pipeline/            Python 표준 라이브러리만 사용 (pip 설치 없음)
   common.py          HTTP·KST·JSON 저장, ETF 테마 분류(이름 키워드)
   daily.py           하루 1번: ETF 목록·구성종목·기본정보·1년 차트, 1주/1개월 수익률, 종목→ETF 역검색 (약 2분)
   live.py            10분마다: ETF 시세, 미국 구성종목 시세, 환율 → 추정 iNAV, 순위, 등락 이유, 테마, 트렌드 (약 6초)
+  news.py            10분마다: 증권 뉴스 RSS(한국경제·서울경제) 헤드라인 → data/news.json. 제목·링크만, 본문 저장 안 함
   brief_targets.py   브리핑 대상 ETF 선정 + 재료(JSON 출력)
 site/                빌드 없는 정적 SPA (index.html, app.js, styles.css)
   data/              파이프라인 출력. git에 올리지 않음(.gitignore). Actions가 매번 생성
   briefs/            Claude가 쓰는 브리핑 JSON. git에 올림
     latest.json, index.json, YYYY-MM-DD-{pre|mid|close}.json, trends.json
 .github/workflows/update.yml   매시 05분 예약 실행 + push 시 실행
-ops/loop.py          Actions 안에서 live.py를 10분 간격으로 돌리고 gh-pages 브랜치로 배포 (예약 실행이면 6회, 그 외 1회)
-ops/routines.md      장 전·장 마감 자동 브리핑(Claude 예약 실행) 설정 원본
+ops/loop.py          Actions 안에서 news.py·live.py를 10분 간격으로 돌리고 gh-pages 브랜치로 배포 (예약 실행이면 6회, 그 외 1회)
+ops/routines.md      장 전·장중(11시·14시)·장 마감 자동 브리핑(Claude 예약 실행) 설정 원본
 ```
 
 ## 자주 쓰는 명령 (Windows Git Bash 기준, 저장소 루트에서)
@@ -52,7 +53,7 @@ git push origin main                          # 푸시하면 Actions가 바로 �
 - 알려진 한계: 국내 휴장 중 미국장이 2번 이상 열리면(예: 한글날) `idle`. Yahoo spark로 기준일 직전 미국 종가를 받아 보완하는 것이 다음 작업 후보
 
 ## 화면 (site/app.js, 해시 라우터)
-`#/` 홈(시장 폭·테마 히트맵·순위 탭·요즘 트렌드·브리핑·내 ETF), `#/hot` 내일의 HOT, `#/find` 찾기·종목 역검색, `#/etf/{code}` 상세, `#/my` 즐겨찾기·예상 손익(localStorage), `#/brief` 브리핑.
+`#/` 홈(시장 폭·테마 히트맵·오늘 브리핑·실시간 뉴스·순위 탭·요즘 트렌드·브리핑·내 ETF), `#/hot` 내일의 HOT, `#/find` 찾기·종목 역검색, `#/etf/{code}` 상세, `#/my` 즐겨찾기·예상 손익(localStorage), `#/brief` 브리핑.
 - 디자인: 토스·애플풍 단순함. Pretendard, 회색 배경 + 흰 카드, 상승 빨강/하락 파랑(한국식), 다크모드 지원. 카드 늘리기보다 탭·접기로 압축
 - 시장 폭 막대: ETF 개수 기준, 금리·채권형·레버리지·인버스 제외
 - 테마 히트맵: 시총가중 평균 등락률, 변동폭 큰 순

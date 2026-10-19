@@ -1,4 +1,4 @@
-"""GitHub Actions 안에서 10분 간격으로 live.py를 돌리고 gh-pages 브랜치로 배포한다.
+"""GitHub Actions 안에서 10분 간격으로 news.py·live.py를 돌리고 gh-pages 브랜치로 배포한다.
 
 GitHub 예약 실행(cron)은 10분 간격이면 자주 밀리거나 빠지기 때문에,
 워크플로는 1시간마다 한 번 실행하고 이 스크립트가 그 안에서 6번 갱신한다.
@@ -140,6 +140,7 @@ def main():
     loops = int(os.environ.get("LOOPS", "1"))
     for i in range(loops):
         t0 = time.time()
+        run([sys.executable, "-X", "utf8", "news.py"], cwd=os.path.join(ROOT, "pipeline"), check=False)  # 실패해도 계속
         r = run([sys.executable, "-X", "utf8", "live.py"], cwd=os.path.join(ROOT, "pipeline"), check=False)
         if r.returncode == 0 or os.path.exists(os.path.join(SITE, "data", "live.json")):
             publish()
