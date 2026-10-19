@@ -1,6 +1,6 @@
 # 자동 브리핑 예약 실행 (Claude Code Routines)
 
-장 전 08:00 · 장중 11:00, 14:00 · 장 마감 15:40, 평일 하루 4회.
+장 전 08:00 · 장중 11:00, 14:00 · 장 마감 16:05, 평일 하루 4회.
 
 Claude Code에서 `/schedule` 로 만든다. 클라우드에서 실행되므로 PC를 꺼둬도 된다.
 **사전 조건:** Claude 계정에 GitHub 연결 (`/web-setup` 또는 https://claude.ai/connect-github). 안 되어 있으면 생성 시 `github_token_missing` 오류가 난다.
@@ -29,12 +29,12 @@ Claude Code에 이렇게 말하면 된다:
 실행 시점(약 08:00 KST) 이전의 정보·기사만 쓴다.
 
 단계
-1. `cd pipeline && python3 -X utf8 daily.py && python3 -X utf8 live.py`. 실패하면 원인을 출력하고 커밋 없이 종료.
-2. `python3 -X utf8 brief_targets.py 8` 와 site/data/live.json 의 rank.up / rank.down(ex=예상 등락%, top=영향 큰 미국 종목), fx, indices 를 재료로 쓴다. 같은 이야기의 ETF는 한 항목(codes 여러 개)으로 묶고 항목은 4~6개.
+1. 최신 데이터 가져오기: `git fetch -q --depth 1 origin gh-pages && rm -rf site/data && git archive FETCH_HEAD data | tar -x -C site/` (Actions가 10분마다 gh-pages 에 배포하는 데이터. 실행 환경에서 네이버가 막혀 있어도 된다). site/data/live.json 이 없으면 원인을 출력하고 커밋 없이 종료. updated 가 1시간 넘게 지났으면 보고에 적는다.
+2. `cd pipeline && python3 -X utf8 brief_targets.py 8` 와 site/data/live.json 의 rank.up / rank.down(ex=예상 등락%, top=영향 큰 미국 종목), fx, indices 를 재료로 쓴다. 같은 이야기의 ETF는 한 항목(codes 여러 개)으로 묶고 항목은 4~6개.
 3. live.json 의 mode 가 "idle"(국내 휴장 뒤 미국장이 2번 이상 열린 경우)이면 https://query1.finance.yahoo.com/v7/finance/spark?symbols=NVDA,MU,AMD,AVGO,PLTR,MSFT,AMZN,AAPL&range=5d&interval=1d (20종목씩, User-Agent 헤더 필요)로 주요 미국 종목의 기준일 이후 등락을 직접 확인해 설명하고, 그 사실을 시황 points 에 밝힌다.
 4. WebSearch/WebFetch 로 밤사이 미국 증시 마감 기사(영문)와 국내 증시 전망 기사(한국어)를 찾아 원인을 확인한다. 기사 날짜를 반드시 확인.
 5. site/briefs/YYYY-MM-DD-pre.json 작성, 같은 내용을 site/briefs/latest.json 에 저장, site/briefs/index.json 의 briefs 맨 앞에 {id,date,session,generatedAt} 추가(같은 id면 교체). python3 로 JSON 유효성 확인.
-6. `git add site/briefs && git commit -m "브리핑: YYYY-MM-DD 장 전" && git push origin main`. site/data/ 는 커밋하지 않는다. 다른 파일은 수정하지 않는다.
+6. `git pull -q --rebase origin main; git add site/briefs && git commit -m "브리핑: YYYY-MM-DD 장 전" && git push origin main`. site/data/ 는 커밋하지 않는다. 다른 파일은 수정하지 않는다.
 
 마지막에 헤드라인, 항목 제목, 커밋 해시를 짧게 보고한다.
 ```
@@ -51,9 +51,9 @@ Claude Code에 이렇게 말하면 된다:
 초점: 오늘 장 시작부터 지금까지 국내 상장 ETF 흐름과 그 원인. 숫자는 지금 시점 기준이라 장 마감까지 바뀔 수 있다는 점을 시황 points 에 한 줄 밝힌다.
 
 단계
-1. `cd pipeline && python3 -X utf8 daily.py && python3 -X utf8 news.py && python3 -X utf8 live.py`. daily·live 가 실패하면 원인을 출력하고 커밋 없이 종료.
+1. 최신 데이터 가져오기: `git fetch -q --depth 1 origin gh-pages && rm -rf site/data && git archive FETCH_HEAD data | tar -x -C site/` (Actions가 10분마다 gh-pages 에 배포하는 데이터. 실행 환경에서 네이버가 막혀 있어도 된다). site/data/live.json 이 없으면 원인을 출력하고 커밋 없이 종료. updated 가 1시간 넘게 지났으면 보고에 적는다.
 2. site/data/live.json 의 mode 가 "official"(KRX 정규장)이 아니면 오늘은 휴장이다. 아무것도 커밋하지 말고 "휴장"이라고 보고하고 종료.
-3. `python3 -X utf8 brief_targets.py 8` 와 live.json 의 rank.gainers / losers / amount / surge(dr = 등락을 이끈 구성종목)를 재료로 쓴다. 같은 이야기는 한 항목으로 묶고 항목은 3~5개.
+3. `cd pipeline && python3 -X utf8 brief_targets.py 8` 와 live.json 의 rank.gainers / losers / amount / surge(dr = 등락을 이끈 구성종목)를 재료로 쓴다. 같은 이야기는 한 항목으로 묶고 항목은 3~5개.
 4. site/data/news.json 의 최근 헤드라인으로 실마리를 잡고, WebSearch/WebFetch 로 오늘 기사를 읽어 원인을 확인한다. 기사 날짜를 반드시 확인.
 5. site/briefs/<id>.json 작성, 같은 내용을 latest.json 에도 저장, index.json 맨 앞에 {id,date,session,generatedAt} 추가(같은 id면 교체). python3 로 JSON 유효성 확인.
 6. `git pull --rebase origin main && git add site/briefs && git commit -m "브리핑: YYYY-MM-DD 장중 HH시" && git push origin main`. site/data/ 는 커밋하지 않는다. 다른 파일은 수정하지 않는다.
@@ -61,8 +61,8 @@ Claude Code에 이렇게 말하면 된다:
 마지막에 헤드라인, 항목 제목, 커밋 해시를 짧게 보고한다.
 ```
 
-## 3) 장 마감 종합 — 평일 15:40 KST
-- cron (UTC): `40 6 * * 1-5`  (= 월~금 15:40 KST)
+## 3) 장 마감 종합 — 평일 16:05 KST
+- cron (UTC): `5 7 * * 1-5`  (= 월~금 16:05 KST, 15:30 마감 데이터가 배포된 뒤)
 - 프롬프트:
 
 ```
@@ -72,13 +72,13 @@ Claude Code에 이렇게 말하면 된다:
 회차: session "장 마감 종합", 파일 id YYYY-MM-DD-close (YYYY-MM-DD = `TZ=Asia/Seoul date +%F`)
 
 단계
-1. `cd pipeline && python3 -X utf8 daily.py && python3 -X utf8 live.py`. 실패하면 원인을 출력하고 커밋 없이 종료.
-2. site/data/live.json 의 anchor 가 오늘 날짜가 아니면 오늘은 KRX 휴장이다. 아무것도 커밋하지 말고 "휴장"이라고 보고하고 종료.
-3. `python3 -X utf8 brief_targets.py 8` 로 대상(거래대금·등락률·거래량 급증 상위)을 확인한다. live.json 의 rank.gainers / losers / amount / surge 항목의 dr(등락을 이끈 구성종목)도 참고한다. 같은 이야기는 한 항목으로 묶고 항목은 4~6개.
+1. 최신 데이터 가져오기: `git fetch -q --depth 1 origin gh-pages && rm -rf site/data && git archive FETCH_HEAD data | tar -x -C site/` (Actions가 10분마다 gh-pages 에 배포하는 데이터. 실행 환경에서 네이버가 막혀 있어도 된다). site/data/live.json 이 없으면 원인을 출력하고 커밋 없이 종료. updated 가 1시간 넘게 지났으면 보고에 적는다.
+2. site/data/live.json 의 anchor 가 오늘 날짜가 아니면 10분 기다렸다가 1단계를 한 번 더 한다. 그래도 아니면 오늘은 KRX 휴장이다. 아무것도 커밋하지 말고 "휴장"이라고 보고하고 종료.
+3. `cd pipeline && python3 -X utf8 brief_targets.py 8` 로 대상(거래대금·등락률·거래량 급증 상위)을 확인한다. live.json 의 rank.gainers / losers / amount / surge 항목의 dr(등락을 이끈 구성종목)도 참고한다. 같은 이야기는 한 항목으로 묶고 항목은 4~6개.
 4. WebSearch/WebFetch 로 오늘 국내 증시 마감 기사와 관련 종목 기사를 찾아 원인을 확인한다. 기사 날짜를 반드시 확인.
 5. site/briefs/YYYY-MM-DD-close.json 작성, latest.json 에도 저장, index.json 맨 앞에 추가(같은 id면 교체).
 6. BRIEFING.md 의 '요즘 트렌드' 절차대로 site/briefs/trends.json 을 갱신한다 (live.json 의 rank.trend.w1 / m1 기준, 4~6개 이야기, codes 에 순위에 오른 ETF 코드 모두 포함).
-7. python3 로 JSON 유효성 확인 후 `git add site/briefs && git commit -m "브리핑: YYYY-MM-DD 장 마감" && git push origin main`. site/data/ 는 커밋하지 않는다.
+7. python3 로 JSON 유효성 확인 후 `git pull -q --rebase origin main; git add site/briefs && git commit -m "브리핑: YYYY-MM-DD 장 마감" && git push origin main`. site/data/ 는 커밋하지 않는다.
 
 마지막에 헤드라인, 항목 제목, 트렌드 이야기 제목, 커밋 해시를 짧게 보고한다.
 ```

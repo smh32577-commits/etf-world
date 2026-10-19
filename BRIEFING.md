@@ -6,13 +6,13 @@ API 키 없이 Claude Code 세션(또는 예약 실행)이 직접 뉴스를 찾�
 ## 언제
 | 회차 | 시각(KST) | session 값 | 초점 |
 |---|---|---|---|
-| 장 마감 종합 | 15:40 | `장 마감 종합` | 오늘 하루 국내 ETF 흐름 정리 (종가 기준) |
+| 장 마감 종합 | 16:05 | `장 마감 종합` | 오늘 하루 국내 ETF 흐름 정리 (종가 기준) |
 | 장 전 | 08:00 | `장 전` | 밤사이 미국장 + 내일의 HOT(추정 iNAV) 상·하위가 시초가에 줄 영향 |
 | 장중 | 11:00 · 14:00 | `장중 11시` · `장중 14시` | 장 시작부터 지금까지 흐름 (id `YYYY-MM-DD-mid-HHMM`) |
 | 수시 | 요청 시 | `장중` | 지금까지의 흐름 |
 
 ## 순서
-1. `cd pipeline && python -X utf8 live.py` 로 최신 데이터 생성 (daily 데이터가 없으면 `daily.py` 먼저)
+1. 최신 데이터 준비: 로컬은 `cd pipeline && python -X utf8 live.py` (daily 데이터가 없으면 `daily.py` 먼저). 네이버가 막힌 클라우드 환경은 `git fetch --depth 1 origin gh-pages && git archive FETCH_HEAD data | tar -x -C site/` 로 배포된 데이터를 받는다
 2. `python -X utf8 brief_targets.py 8` → 대상 ETF와 재료(JSON). 같은 이야기의 ETF는 한 항목으로 묶는다 (`codes`에 여러 개)
 3. `site/data/news.json`(10분마다 모으는 증권 헤드라인)으로 실마리를 잡고, 대상마다 뉴스 검색: 국내 종목은 한국어 기사, 미국 종목은 영문 기사. 당일 기사를 우선하고 날짜를 반드시 확인
 4. 아래 형식으로 `site/briefs/YYYY-MM-DD-{pre|mid|close}.json` 작성 (장 전 pre, 장중 mid, 장 마감 close)
