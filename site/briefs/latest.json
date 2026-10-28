@@ -1,139 +1,113 @@
 {
- "generatedAt": "2026-10-27T10:04:10+09:00",
- "dataAsOf": "2026-10-27T09:59:26+09:00",
+ "generatedAt": "2026-10-28T10:04:32+09:00",
+ "dataAsOf": "2026-10-28T09:59:22+09:00",
  "session": "장중 10시",
  "market": {
-  "headline": "코스피 +3.8% 강세 유지, 반도체 ETF 7~8%대·은행 ETF만 약세",
+  "headline": "코스피 +4.8% 매수 사이드카, 반도체·로봇 ETF 6~8%대 급등",
   "points": [
-   "10시 무렵 코스피 +3.8%(5,679), 코스닥 +3.7%(754)로 장 초반 급등 폭을 그대로 지키고 있어요.",
-   "전날 미국장에서 앤트로픽이 상장 신청서를 내며 나스닥 +0.8%, 필라델피아 반도체지수 +2.8%로 올랐고, 외국인이 장 초반 코스피에서 약 4천억 원을 순매수했어요.",
-   "테마로는 반도체 +6.0%, 전력·원자력 +4.4%, AI +4.0%, 2차전지 +3.0% 순이에요. 은행·금융 고배당 ETF 정도만 내리고 있어요.",
+   "10시 무렵 코스피 +4.8%(5,911), 코스닥 +3.8%(772)예요. 장 초반 급등으로 코스피 매수 사이드카가 발동됐어요.",
+   "전날 미국장에서 AI 관련 대형 계약이 이어지며 나스닥 +1.2%, 필라델피아 반도체지수 +3.6%로 올랐고, 밤사이 SK하이닉스가 3분기 실적과 약 100조 원 규모 주주환원 계획을 내놨어요.",
+   "ETF 1,186개 중 949개가 오르고 168개가 내려요. 테마로는 반도체 +5.8%, 로봇 +5.1%, AI +4.2%, 방산·우주 +4.1% 순이에요.",
    "10시 기준 숫자라 장 마감까지 바뀔 수 있어요."
   ]
  },
  "items": [
   {
    "codes": [
-    "471990",
-    "455850",
-    "471760",
-    "475310",
-    "0239Z0",
-    "476260"
-   ],
-   "title": "반도체 소부장 ETF 7~8%대 급등",
-   "tone": "up",
-   "summary": "주성엔지니어링(+8.7%)·이수페타시스(+9.1%)·대덕전자(+9.4%) 등 장비·기판주가 크게 오르며 소부장 ETF가 상승률 상위를 차지했어요.",
-   "points": [
-    "KODEX AI반도체핵심장비 +8.1%(거래대금 184억 원), SOL AI반도체소부장 +7.6%(228억 원)예요.",
-    "기사는 AI 반도체 수요 확대와 빅테크 설비투자 증가 기대로 소부장주가 장 초반 일제히 올랐다고 전해요.",
-    "최근 반도체주가 많이 빠졌던 터라 반발 매수 성격도 있어요(추정)."
-   ],
-   "watch": "이번 주 마이크로소프트·알파벳·아마존 실적에서 AI 설비투자 전망이 유지되는지",
-   "sources": [
-    {
-     "t": "이투데이 · [특징주] 반도체 업황 회복 기대감에…소부장 종목 장 초반 일제히 급등",
-     "u": "https://www.etoday.co.kr/news/view/2640388"
-    },
-    {
-     "t": "TheStreet · Stock Market Today (Oct. 26, 2026): Nasdaq, S&P 500 jump after Anthropic IPO announcement",
-     "u": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-26-2026"
-    }
-   ]
-  },
-  {
-   "codes": [
     "396500",
-    "0210A0",
-    "494220",
-    "0239Y0",
-    "0167A0"
+    "091160",
+    "0167A0",
+    "0234N0",
+    "0166S0",
+    "0239Z0"
    ],
-   "title": "반도체 대형주 ETF 7% 안팎 상승",
+   "title": "반도체 ETF 6~8%대 상승",
    "tone": "up",
-   "summary": "SK스퀘어(+10.5%)·SK하이닉스(+6.4%)·삼성전자(+4.7%)가 함께 오르며 대형 반도체 ETF를 끌어올렸어요.",
+   "summary": "삼성전자(+7.2%)·SK하이닉스(+5.7%)·삼성전기(+7.7%)가 함께 오르며 반도체 ETF가 테마 1위(+5.8%)를 달리고 있어요.",
    "points": [
-    "TIGER 반도체TOP10 +7.1%로 거래대금 917억 원이 몰렸어요.",
-    "기사는 앤트로픽 상장 소식과 미국 반도체주 강세에 외국인이 반도체를 다시 사들였다고 전하고, SK하이닉스는 특별배당 기대도 거론돼요."
+    "TIGER 반도체TOP10 +6.5%(거래대금 851억 원), KODEX 반도체 +6.3%, SOL AI반도체TOP2플러스 +6.1%(831억 원)예요.",
+    "기사는 SK하이닉스의 3분기 영업이익 83조 원(+38%)과 약 100조 원 주주환원 발표, 전날 미국 메모리·반도체주 강세를 상승 배경으로 꼽았어요.",
+    "PLUS AI반도체소부장액티브 +7.8%처럼 피에스케이홀딩스(+11.9%)·엑시콘(+14.7%) 등 소부장주 비중이 큰 ETF가 더 많이 올랐어요."
    ],
-   "watch": "외국인 순매수가 오후까지 이어지는지",
+   "watch": "내일(29일) 삼성전자 실적과 주주환원 발표",
    "sources": [
     {
-     "t": "스트레이트뉴스 · 코스피 장 초반 3.6% 급등…외인, 반도체 다시 매수",
-     "u": "https://www.straightnews.co.kr/news/articleView.html?idxno=314005"
+     "t": "글로벌이코노믹 · '반도체 훈풍' 확산…코스피, 2.3% 오른 5760선 출발",
+     "u": "https://www.g-enews.com/article/Securities/2026/10/202610280912085201923c501012_1"
+    }
+   ]
+  },
+  {
+   "codes": [
+    "0148J0",
+    "0155N0",
+    "0177X0",
+    "445290",
+    "469070"
+   ],
+   "title": "휴머노이드·로봇 ETF 7~8%대 급등",
+   "tone": "up",
+   "summary": "레인보우로보틱스(+13.9%)·로보티즈(+11.0%)·에스피지(+10.9%)가 급등하며 로봇 ETF가 상승률 상위에 올랐어요.",
+   "points": [
+    "TIGER 코리아휴머노이드로봇산업 +8.4%(179억 원), HANARO K휴머노이드테마TOP10 +7.5%, ACE K휴머노이드로봇산업TOP2+ +7.4%예요.",
+    "기사는 대기업의 로봇 사업 확대와 협력 기대, 스마트공장 전환·인력난에 따른 자동화 수요를 매수 배경으로 들었어요. 로보티즈는 장 초반 변동성완화장치(VI)가 걸렸어요.",
+    "특정 단일 호재보다 위험 선호가 살아난 장에서 낙폭이 컸던 성장 테마로 매수가 몰린 성격도 있어요(추정)."
+   ],
+   "watch": "급등 뒤 오후에 차익 매물이 나오며 상승 폭이 유지되는지",
+   "sources": [
+    {
+     "t": "핀포인트뉴스 · 대기업 로봇 투자 확대 기대…부품·자동화주도 들썩",
+     "u": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=499143"
     },
     {
-     "t": "TheStreet · Stock Market Today (Oct. 26, 2026): Nasdaq, S&P 500 jump after Anthropic IPO announcement",
-     "u": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-26-2026"
+     "t": "CBC뉴스 · [속보] 로보티즈 주가 장초반 VI 발동…10%대 급등에 28만원선 눈앞",
+     "u": "https://www.cbci.co.kr/news/articleView.html?idxno=620132"
     }
    ]
   },
   {
    "codes": [
-    "0173Y0"
+    "0127R0",
+    "0142D0",
+    "0173Y0",
+    "0190M0"
    ],
-   "title": "미국 AI 광통신 ETF +8.5%",
+   "title": "미국 AI 인프라 ETF 7~11% 상승",
    "tone": "up",
-   "summary": "루멘텀(+10.9%)·코히어런트(+8.3%)·시에나(+6.2%) 등 광통신주가 전날 미국장에서 크게 오른 몫이 반영됐어요.",
+   "summary": "전날 미국장에서 네비우스(+12.6%)·코어위브(+8.5%) 같은 네오클라우드와 루멘텀·코히런트 등 광통신주가 오른 몫이 반영됐어요.",
    "points": [
-    "거래대금 79억 원으로 미국 테마 ETF 중 상승률이 가장 높아요.",
-    "루멘텀은 증권사 신규 커버리지(목표가 1,200달러) 소식에 급등했다고 해요."
+    "RISE 미국AI클라우드인프라 +10.9%, TIGER 미국AI데이터센터TOP4Plus +8.8%, KODEX 미국AI광통신네트워크 +7.2%(38억 원)예요.",
+    "기사는 앤트로픽 칩·네트워크 구매용 대규모 금융, AMD·메타 협력 확대 등 AI 계약이 이어지며 필라델피아 반도체지수가 3.6% 올랐다고 전해요. 많이 빠졌던 AI주의 숏커버링 성격도 짚었어요.",
+    "원/달러 환율도 0.5% 올라 환노출 ETF에 조금 더 보탬이 됐어요."
    ],
-   "watch": "오늘 밤 미국장에서 광통신주 강세가 이어지는지",
+   "watch": "이번 주 빅테크 실적에서 AI 설비투자 전망이 유지되는지",
    "sources": [
     {
-     "t": "24/7 Wall St. · Lumentum Jumps 8% as StoneX Starts Coverage With $1,200 Target",
-     "u": "https://247wallst.com/investing/2026/10/26/lumentum-jumps-8-as-stonex-starts-coverage-with-1200-target-applied-optoelectronics-and-coherent-climb-6/"
-    },
-    {
-     "t": "TheStreet · Stock Market Today (Oct. 26, 2026): Nasdaq, S&P 500 jump after Anthropic IPO announcement",
-     "u": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-26-2026"
+     "t": "TheStreet Pro · AI Frenzy Returns to Wall Street as Chip Stocks Explode Higher Before Big Tech Earnings",
+     "u": "https://pro.thestreet.com/market-commentary/ai-frenzy-returns-to-wall-street-as-chip-stocks-explode-higher-before-big-tech-earnings"
     }
    ]
   },
   {
    "codes": [
-    "122630",
-    "252670",
-    "114800",
-    "233740"
+    "474800",
+    "218420",
+    "261220",
+    "494840"
    ],
-   "title": "레버리지·인버스 거래대금 상위 독식",
-   "tone": "flat",
-   "summary": "KODEX 레버리지 +8.5%(4,165억 원), KODEX 200선물인버스2X -8.0%(3,715억 원)로 KODEX 200에 이어 거래대금 2·3위예요.",
-   "points": [
-    "KODEX 코스닥150레버리지도 +8.9%에 1,359억 원이 거래됐어요.",
-    "기사에 따르면 장 초반 개인은 코스피에서 약 4,600억 원을 순매도했어요. 급반등 구간이라 양방향 단기 매매가 몰린 모습이에요(추정)."
-   ],
-   "watch": "FOMC(27~28일) 앞두고 오후 변동성이 커지는지",
-   "sources": [
-    {
-     "t": "스트레이트뉴스 · 코스피 장 초반 3.6% 급등…외인, 반도체 다시 매수",
-     "u": "https://www.straightnews.co.kr/news/articleView.html?idxno=314005"
-    }
-   ]
-  },
-  {
-   "codes": [
-    "091170",
-    "091220",
-    "466940",
-    "484880",
-    "498410",
-    "489030"
-   ],
-   "title": "은행·금융 고배당 ETF만 약세",
+   "title": "미국 정유·방산 ETF만 약세",
    "tone": "down",
-   "summary": "신한지주(-2.0%)·우리금융지주(-1.7%)가 내리며 KODEX 은행 -1.1%로 하락률 상위에 올랐어요.",
+   "summary": "전날 미국 정유주와 보잉이 크게 빠져 관련 ETF가 하락률 상위에 있어요.",
    "points": [
-    "기사는 3분기 순이자마진(NIM) 하락과 실적 모멘텀 부재, 대출 가산금리 규제 우려를 은행주 약세 이유로 꼽아요.",
-    "KRX 은행지수는 10월 들어 전날까지 14.6% 내렸다고 해요. 시장 자금이 반도체로 쏠린 영향도 있어요(추정)."
+    "KIWOOM 미국원유에너지기업 -2.2%(발레로 -9.6%, 마라톤페트롤리엄 -7.8%), KODEX WTI원유선물(H) -1.0%, TIGER 미국방산TOP10 -1.8%(보잉 -10.5%)예요.",
+    "기사는 페르시아만 긴장 완화 움직임에 WTI가 1.9% 내려 100달러 아래로 떨어지고 정유주가 최근 상승분을 반납했다고 전해요.",
+    "보잉은 737 MAX 증산이 2027년 하반기로 밀린다는 발언에 10% 넘게 빠졌어요."
    ],
-   "watch": "이번 주 남은 금융지주 실적과 주주환원 발표",
+   "watch": "중동 긴장 완화 협상 진행과 국제유가 흐름",
    "sources": [
     {
-     "t": "한국경제 · 금리 오르는데 고꾸라진 은행주…언제쯤 반등할까",
-     "u": "https://www.hankyung.com/article/2026102766946"
+     "t": "TheStreet Pro · AI Frenzy Returns to Wall Street as Chip Stocks Explode Higher Before Big Tech Earnings",
+     "u": "https://pro.thestreet.com/market-commentary/ai-frenzy-returns-to-wall-street-as-chip-stocks-explode-higher-before-big-tech-earnings"
     }
    ]
   }
