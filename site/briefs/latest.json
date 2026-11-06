@@ -1,172 +1,165 @@
 {
-  "generatedAt": "2026-11-05T10:04:33+09:00",
-  "dataAsOf": "2026-11-05T09:58:01+09:00",
-  "session": "장중 10시",
+  "generatedAt": "2026-11-06T09:33:39+09:00",
+  "dataAsOf": "2026-11-06T09:23:01+09:00",
+  "session": "장 초반 9시 30분",
   "market": {
-    "headline": "코스피 -3.9%, 미국 '데이터센터 규제' 우려에 반도체·전력 ETF 급락… 바이오·은행은 강세",
+    "headline": "코스피 -8.55%, 개장 3분 만에 서킷브레이커… 반도체·전력 ETF 10% 안팎 급락",
     "points": [
-      "09:58 기준 코스피는 -3.86%(5,464), 코스닥은 -3.26%(692)예요. 10시 무렵 숫자라 장 마감까지 바뀔 수 있어요.",
-      "코스피는 -1.82%(5,580)로 출발해 낙폭을 키웠어요. 9시 41분 기사 기준으로 외국인이 6,000억 원 넘게 순매도했고, 개인(약 4,100억 원)과 기관(약 1,600억 원)이 받아냈어요. 외국인 순매도는 5거래일째예요.",
-      "간밤 미국은 민주당의 상·하원 승리로 불확실성이 걷혔다며 S&P 500 +1.58%, 나스닥 +1.44%로 올랐지만, 필라델피아 반도체지수는 -3.13%였어요. 데이터센터 건설 규제와 지연 우려가 반도체를 눌렀어요.",
-      "테마로는 전력·원자력 -7.8%, 반도체 -6.9%가 가장 약하고 바이오 +4.4%가 강해요. 거래대금은 KODEX 200(-4.25%), KODEX 200선물인버스2X(+8.0%), KODEX 레버리지(-8.34%) 순이에요. 국내 상장 미국 S&P500 ETF는 +1.7%대예요."
+      "09:23 기준 코스피는 -8.55%(4,923), 코스닥은 -6.68%(633)예요. 코스피는 5,263으로 출발해 9시 3분에 서킷브레이커가 걸렸고, 기사 기준 20분 중단이라 이 숫자는 거래가 멈췄던 시점의 값이에요. 재개 뒤 장중에 크게 바뀔 수 있어요.",
+      "코스닥에도 매도 사이드카가 이틀 연속 발동됐어요. 코스피 5,000선이 깨진 건 9개월 만이에요. 멈추기 전까지 수급은 외국인 1,337억 원 순매도, 기관 865억 원·개인 426억 원 순매수로 아직 규모가 작아요.",
+      "간밤 미국은 나스닥 -5.52%, S&P 500 -4.36%, 필라델피아 반도체지수 -12.25%였어요. 민주당 승리 뒤 데이터센터 규제와 건설 중단 우려가 커졌고, 퀄컴 등 실적 실망까지 겹쳤다고 기사들이 전해요.",
+      "테마로는 전력·원자력 -10.08%, 반도체 -9.9%, AI -7.83% 순으로 약해요. 거래대금은 KODEX 200(-9.08%), KODEX 인버스(+9.13%), KODEX 레버리지(-16.33%) 순이에요. 인버스를 빼면 오른 쪽은 원유와 일부 금 ETF 등 소수예요."
     ]
   },
   "items": [
     {
       "codes": [
-        "091160",
         "396500",
-        "0167A0",
+        "091160",
         "395160",
-        "455850",
-        "471990",
-        "475310",
-        "494310",
-        "0239Z0",
-        "0254H0"
+        "0167A0",
+        "395270",
+        "0182R0",
+        "442580",
+        "139260",
+        "0177R0",
+        "0239Z0"
       ],
-      "title": "반도체 ETF 7~10%대 급락",
+      "title": "국내 반도체 ETF 9~12% 급락",
       "tone": "down",
-      "summary": "KODEX 반도체 -8.0%, TIGER 반도체TOP10 -7.11%이고, 소부장 쪽인 PLUS AI반도체소부장액티브는 -10.97%까지 빠졌어요.",
+      "summary": "TIGER 반도체TOP10 -10.38%, KODEX 반도체 -9.25%, SOL AI반도체TOP2플러스 -11.4%, HANARO Fn K-반도체 -11.8%예요.",
       "points": [
-        "민주당이 데이터센터가 밀집한 텍사스·조지아에서 이긴 뒤 AI 인프라 규제와 건설 지연 우려가 커졌다고 기사들이 전해요. 메모리 수요 둔화 걱정도 함께 거론돼요.",
-        "미국에서는 기사 기준 마이크론 -7.00%, 샌디스크 -7.91%, 엔비디아 -3.17%였어요. 마이크론은 중국 CXMT의 차세대 D램 소식과 차익 실현도 이유로 꼽혔어요.",
-        "우리 데이터로 SK하이닉스 -7.9%, 삼성전자 -5.8%, 삼성전기 -10.6%예요. 2배 상품인 KODEX 반도체레버리지는 -15.83%예요."
+        "우리 데이터로 SK스퀘어 -13.5%, SK하이닉스 -11.7%, 삼성전자 -10.0%예요. 두 대형주 비중이 큰 상품일수록 낙폭이 커요.",
+        "기사들은 전날 미국 반도체 급락과 데이터센터 규제에 따른 AI 투자 축소 불안을 원인으로 꼽아요. 외국인 매도도 하락 요인으로 언급돼요.",
+        "키움증권 한지영 연구원은 규제의 범위와 실제 프로젝트 지연 여부는 아직 확인되지 않았다고 봤어요."
       ],
-      "watch": "외국인 반도체 순매도 규모, 미국 데이터센터 규제 관련 후속 보도",
+      "watch": "서킷브레이커 해제 뒤 외국인 순매도 규모, 빅테크 설비투자 계획 변화",
       "sources": [
         {
-          "t": "헤럴드경제 · '블루쓰나미'에 반도체株 찬바람…코스피 2% 하락 출발",
-          "u": "https://biz.heraldcorp.com/article/10926575"
+          "t": "블록미디어 · [개장시황] 코스피 8%대 급락에 서킷브레이커…코스닥도 매도 사이드카",
+          "u": "https://www.blockmedia.co.kr/archives/1162184"
         },
         {
-          "t": "TradingKey · Micron Technology Stock Moved Down by 6.10% on Nov 4",
-          "u": "https://www.tradingkey.com/news/market-movers/262274722-market-movers-mu-20261104"
+          "t": "매일일보 · 코스피 9개월만에 5000선 붕괴…개장 3분 만에 서킷브레이커",
+          "u": "https://www.m-i.kr/news/articleView.html?idxno=2015269"
         },
         {
-          "t": "MTN · 코스피 3%대 급락… 외인 매도세 영향",
-          "u": "https://news.mtn.co.kr/article/2026110509410127588"
+          "t": "Grafa · US Chip Stocks Fall 9% as AI Trade Unwinds",
+          "u": "https://grafa.com/en/news/united-states/us-semiconductor-stocks-selloff-ai-trade-unwind-november-2026"
         }
       ]
     },
     {
       "codes": [
-        "487230",
         "487240",
         "0117V0",
-        "0101N0",
-        "491010",
-        "0209Z0",
-        "486450",
-        "0123G0",
-        "0176E0"
+        "487230",
+        "0091P0"
       ],
-      "title": "AI 전력 ETF 7~12% 하락",
+      "title": "전력·원자력 ETF, 데이터센터 중단 우려에 급락",
       "tone": "down",
-      "summary": "KODEX 미국AI전력핵심인프라가 -12.1%로 하락률 1위이고, KODEX AI전력핵심설비는 -8.95%예요.",
+      "summary": "KODEX AI전력핵심설비 -15.34%, TIGER 코리아AI전력기기TOP3플러스 -10.65%, KODEX 미국AI전력핵심인프라 -9.87%, TIGER 코리아원자력 -6.89%예요.",
       "points": [
-        "서울경제는 데이터센터 규제 우려가 반도체와 함께 전력기기 종목을 눌렀다고 전해요.",
-        "국내는 효성중공업 -10.4%, LS ELECTRIC -9.6%, HD현대일렉트릭 -8.0%, 미국 쪽은 FIX -16.7%, VRT -13.6%, GEV -10.5%예요.",
-        "미국 전력 인프라 종목도 같은 우려로 빠진 것으로 보여요 (추정). 전날 10시 무렵에는 이 ETF가 +6.5%로 상승률 1위였어요."
+        "미국에서는 선거 뒤 데이터센터 신규 건설 중단 공약과 주민투표가 부각됐어요. 텍사스 새 주지사 당선인은 즉각 중단을 주장하고, 웰스파고는 계획 물량의 27%가 텍사스에 있다고 추정해요.",
+        "미국 쪽에서 버티브·비스트라에 이어 GE 버노바, 컨스텔레이션 에너지까지 약세였어요. 우리 데이터로 효성중공업 -16.8%, LS ELECTRIC -12.1%, HD현대일렉트릭 -11.2%예요. 국내 전력주도 같은 우려에 함께 팔린 것으로 보여요 (추정)."
       ],
-      "watch": "미국 데이터센터 건설 관련 주(州)별 규제 움직임, 전력 설비 기업 수주 소식",
+      "watch": "미국 주 정부의 데이터센터 규제 구체안, 국내 전력기기 수주 공시",
       "sources": [
         {
-          "t": "서울경제 · 美 '블루웨이브'에 반도체 울고, 금융·차·바이오 웃어",
-          "u": "https://m.sedaily.com/article/20110500"
+          "t": "Fortune · Wall Street's best post-midterm rally in 44 years lasted just one day",
+          "u": "https://fortune.com/2026/11/05/wall-street-drop-off-tech-ai-plunge-2-trillion/"
         },
         {
-          "t": "Vista Partners · Stock Market Today, November 4, 2026: Dow Surges 1,569 Points as Oil Plunges After Midterm Elections",
-          "u": "https://vistapglobal.com/stock-market-today-november-4-2026-dow-surges-1569-points-as-oil-plunges-after-midterm-elections-aapl-cvs-docs-eprx-googl-law-modd-msft-nvda-qcom-ser-spcx-stz-tap/"
+          "t": "Fox Business · Stocks plunge as Dem midterm sweep fuels AI regulatory concerns",
+          "u": "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
         }
       ]
     },
     {
       "codes": [
-        "0000Z0",
-        "227540",
-        "0168K0",
-        "463050",
-        "462900",
-        "143860",
-        "364970",
-        "244580"
+        "069500",
+        "122630",
+        "114800",
+        "252670",
+        "229200",
+        "233740",
+        "251340",
+        "494310",
+        "0193T0"
       ],
-      "title": "바이오 ETF 4~6% 상승",
-      "tone": "up",
-      "summary": "RISE 바이오TOP10액티브 +6.09%, TIGER 200 헬스케어 +5.8%로 바이오 테마가 평균 +4.4%예요.",
+      "title": "거래는 지수·레버리지·인버스로 쏠려요",
+      "tone": "down",
+      "summary": "KODEX 200 -9.08%, KODEX 레버리지 -16.33%, KODEX 인버스 +9.13%, KODEX 200선물인버스2X +18.02%로 거래대금 상위를 채웠어요.",
       "points": [
-        "민주당 압승으로 의료비 절감 정책 기대가 커졌고, 한국 바이오시밀러 업체가 수혜로 거론된다고 기사들이 전해요. 아직 정책이 확정된 것은 아니에요.",
-        "우리 데이터로 한미약품 +8.2%, 셀트리온 +6.5%, 알테오젠 +6.6%, SK바이오팜 +12.3%, 프로티나 +21.9%예요.",
-        "KODEX 미국S&P500헬스케어도 +2.98%로 함께 올랐어요."
+        "코스닥도 KODEX 코스닥150 -5.91%, 코스닥150레버리지 -11.91%, 코스닥150선물인버스 +7.29%예요.",
+        "KODEX 반도체레버리지 -18.83%, KODEX SK하이닉스단일종목레버리지 -22.06%로 레버리지 상품의 낙폭이 두드러져요.",
+        "하루 수익률을 배수로 따라가는 상품이라 변동이 큰 날에는 숫자가 빠르게 바뀌어요. 거래 재개 직후 가격도 그만큼 크게 움직일 수 있어요 (추정)."
       ],
-      "watch": "미국 의회의 약가·의료비 법안 논의, 상승분이 장중 유지되는지",
+      "watch": "거래 재개 뒤 지수 낙폭, 2단계 서킷브레이커 발동 여부",
       "sources": [
         {
-          "t": "아주경제 · [특징주] 美 의료 정책 확대 기대감…셀트리온 6%·알테오젠 8%·리가켐 11% '급등'",
-          "u": "https://www.ajunews.com/view/20261105091825986"
+          "t": "뉴스1 · '美 반도체 쇼크' 코스피 8% 급락…개장 3분 만에 '서킷브레이커'",
+          "u": "https://www.news1.kr/finance/general-stock/6345114"
         },
         {
-          "t": "서울경제 · 美 '블루웨이브'에 반도체 울고, 금융·차·바이오 웃어",
-          "u": "https://m.sedaily.com/article/20110500"
+          "t": "매일일보 · 코스피 9개월만에 5000선 붕괴…개장 3분 만에 서킷브레이커",
+          "u": "https://www.m-i.kr/news/articleView.html?idxno=2015269"
         }
       ]
     },
     {
       "codes": [
-        "475050",
-        "395290",
-        "266360",
-        "228810",
-        "0008T0",
-        "228790",
-        "466940",
-        "091170",
-        "091220",
-        "091180"
+        "381180",
+        "133690",
+        "360750",
+        "449180",
+        "0173Y0",
+        "0238F0",
+        "483320"
       ],
-      "title": "은행·자동차·화장품·K팝 ETF 강세",
-      "tone": "up",
-      "summary": "ACE KPOP포커스가 +7.19%로 상승률 1위이고, SOL 화장품TOP3플러스 +4.9%, TIGER 은행고배당플러스TOP10 +4.54%, KODEX 자동차 +3.16%예요.",
+      "title": "미국 상장 자산 ETF도 동반 약세, AI 하드웨어가 가장 커요",
+      "tone": "down",
+      "summary": "KODEX 미국AI광통신네트워크 -14.18%, KODEX 미국AI메모리TOP2플러스 -13.75%, TIGER 미국필라델피아반도체나스닥 -8.68%, TIGER 미국S&P500 -3.49%예요.",
       "points": [
-        "기사는 유가·미국 금리 하락과 달러 약세가 내수와 금융시장에 우호적이라고 짚어요. 자금이 반도체 밖으로 옮겨 간 영향도 있어 보여요 (추정).",
-        "K팝 ETF는 에스엠 +12.7%, 하이브 +8.8%, JYP Ent. +4.9%가 끌어올렸어요. 엔터주 자체의 재료는 기사로 확인하지 못했어요 (추정: 순환매).",
-        "KODEX 자동차는 한국타이어앤테크놀로지 +7.7%, 현대차 +4.2%, 기아 +3.3%가 이끌고 있어요."
+        "기사 기준 장중 낙폭이 마이크론·AMD 약 15%, 퀄컴 11.2%, 샌디스크·웨스턴디지털 약 16%까지 나왔어요. 엔비디아는 종가 -9.26%예요. 퀄컴은 스마트폰 칩 매출이 예상에 못 미쳤어요.",
+        "과밀 포지션과 레버리지 청산이 낙폭을 키웠다는 분석도 있어요.",
+        "원/달러가 +1.1%(1,356원)라 환헤지 없는 TIGER 미국S&P500(-3.49%)이 KODEX 미국S&P500(H)(-4.42%)보다 덜 빠졌어요. 환율이 일부 완충한 것으로 보여요 (추정)."
       ],
-      "watch": "반도체 낙폭이 줄 때 이 업종들의 상승이 이어지는지",
+      "watch": "오늘 밤 미국장 반도체 반등 여부, 원/달러 환율",
       "sources": [
         {
-          "t": "서울경제 · 美 '블루웨이브'에 반도체 울고, 금융·차·바이오 웃어",
-          "u": "https://m.sedaily.com/article/20110500"
+          "t": "Grafa · US Chip Stocks Fall 9% as AI Trade Unwinds",
+          "u": "https://grafa.com/en/news/united-states/us-semiconductor-stocks-selloff-ai-trade-unwind-november-2026"
         },
         {
-          "t": "헤럴드경제 · '블루쓰나미'에 반도체株 찬바람…코스피 2% 하락 출발",
-          "u": "https://biz.heraldcorp.com/article/10926575"
+          "t": "Fox Business · Stocks plunge as Dem midterm sweep fuels AI regulatory concerns",
+          "u": "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
+        },
+        {
+          "t": "Fortune · Wall Street's best post-midterm rally in 44 years lasted just one day",
+          "u": "https://fortune.com/2026/11/05/wall-street-drop-off-tech-ai-plunge-2-trillion/"
         }
       ]
     },
     {
       "codes": [
-        "271050",
-        "217770",
         "261220",
-        "130680",
-        "411060",
-        "0072R0",
-        "473640"
+        "0066W0",
+        "0064K0",
+        "0022T0"
       ],
-      "title": "유가 급락에 원유 ETF 갈리고 금은 상승",
-      "tone": "flat",
-      "summary": "KODEX WTI원유선물(H) -8.8%, KODEX WTI원유선물인버스(H) +8.48%이고, ACE KRX금현물은 +1.73%예요.",
+      "title": "원유 ETF는 상승, 금 ETF는 강보합",
+      "tone": "up",
+      "summary": "KODEX WTI원유선물(H) +4.6%로 인버스를 뺀 상승률 1위이고, SOL 국제금 +0.43%, KODEX 금액티브 +0.3%, SOL 국제금커버드콜액티브 +1.13%예요.",
       "points": [
-        "기사 기준 WTI 12월물은 7.85% 내린 88.55달러예요. 이란 사태 확전 우려가 줄고 외교 해결 신호가 나오면서 위험 프리미엄이 빠졌대요. 공급이 회복된 것은 아니라고 해요.",
-        "금은 기사 기준 +3.38%(4,073.6달러)였고, 금리 하락이 영향을 준 것으로 보여요 (추정). HANARO 글로벌금채굴기업은 +4.82%예요."
+        "국제유가는 수요일 8%대 급락 뒤 목요일 반등했어요. 유라시아그룹이 이란 협상 타결 확률을 20%에서 10%로 낮췄고, 페르시아만 선박 사고도 이어졌어요.",
+        "금 ETF는 증시 급락 속에 버티고 있어요. 안전자산 수요로 보여요 (추정). 다만 ACE KRX금현물 -0.4%처럼 내린 상품도 있어요."
       ],
-      "watch": "이란 협상 진행 상황, 미국 10년물 금리",
+      "watch": "미국·이란 협상 소식, 호르무즈 해협 선박 안전",
       "sources": [
         {
-          "t": "Vista Partners · Stock Market Today, November 4, 2026: Dow Surges 1,569 Points as Oil Plunges After Midterm Elections",
-          "u": "https://vistapglobal.com/stock-market-today-november-4-2026-dow-surges-1569-points-as-oil-plunges-after-midterm-elections-aapl-cvs-docs-eprx-googl-law-modd-msft-nvda-qcom-ser-spcx-stz-tap/"
+          "t": "OilPrice.com · Oil Prices Rebound Sharply After Brutal Midweek Rout",
+          "u": "https://oilprice.com/Latest-Energy-News/World-News/Oil-Prices-Rebound-Sharply-After-Brutal-Midweek-Rout.html"
         }
       ]
     }
