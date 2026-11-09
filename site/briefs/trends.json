@@ -1,1 +1,153 @@
-{"generatedAt": "2026-11-02T10:10:14+09:00", "dataAsOf": "2026-10-30", "note": "10/30 종가 기준 최근 5거래일(1주)·20거래일(1개월) 수익률", "items": [{"codes": ["0234N0", "363580", "395270", "0210A0", "395160", "0182R0", "0177R0"], "period": "1주", "title": "국내 반도체 대형주", "tone": "up", "summary": "10월 초중순 급락 뒤, 지난주 미국 반도체 반등에 삼성전자·SK하이닉스 중심 ETF가 1주일 새 7~8% 올랐어요.", "points": ["27일 미국 AI 반도체주 반등에 SK하이닉스 +7%대, SK스퀘어 +10%대로 급등하며 코스피가 4% 넘게 올랐어요.", "AI 투자 과열 우려로 많이 빠졌던 반도체에 저가 매수가 들어왔어요. 다만 30일 인텔 폭락으로 주 후반엔 다시 흔들렸어요."], "sources": [{"t": "아주경제 · [특징주] 美 반도체주 반등에 삼성전자·SK하이닉스 급등…SK스퀘어 10%↑", "u": "https://www.ajunews.com/view/20261027091836926"}, {"t": "Yahoo Finance · Stock Market Today, Oct. 30: Intel Plunges Nearly 29%", "u": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-oct-30-212002526.html"}]}, {"codes": ["0091P0", "377990", "457990", "385510"], "period": "1주", "title": "원자력 · 신재생에너지", "tone": "down", "summary": "체코 원전 시공계약 협상이 결렬되며 원전주가 급락했고, 신재생에너지 ETF도 1주일 새 10~12% 빠졌어요.", "points": ["29일 체코 원전 협상 결렬 소식에 두산에너빌리티·한전기술이 8~11% 급락했어요.", "한화솔루션·OCI홀딩스 등 태양광 종목도 함께 약해 신재생 ETF가 크게 밀렸어요 (추정)."], "sources": [{"t": "파이낸셜뉴스 · 체코 원전 시공협상 결국 결렬…두산 8%대 급락", "u": "https://www.fnnews.com/news/202610291011347534"}, {"t": "뉴스핌 · 체코 원전 시공계약 협상 무산에 원전株 동반 급락", "u": "https://newspim.com/news/view/20261030000283"}]}, {"codes": ["0080G0", "449450", "490480"], "period": "1주 · 1개월", "title": "국내 방산", "tone": "down", "summary": "방위사업청의 LIG디펜스앤에어로스페이스 방산업체 지정 취소 검토 소식에 1주일 새 9%, 한 달 새 31% 빠졌어요.", "points": ["26일 LIG디펜스앤에어로스페이스가 10% 넘게 급락했고, 한화에어로스페이스·한화시스템도 함께 밀렸어요.", "소형무인기 사업의 납품·계약 이행 문제 때문이며 아직 최종 처분은 나오지 않았어요."], "sources": [{"t": "뉴스핌 · [특징주] '방산업체 지정 취소' 가능성…LIG디펜스앤에어로스페이스 8% 급락", "u": "https://www.newspim.com/news/view/20261026000244"}]}, {"codes": ["487240", "0117V0", "139230", "491820", "0115D0", "494670"], "period": "1개월", "title": "전력기기 · 조선", "tone": "down", "summary": "한 달 새 30% 넘게 빠지며 국내 ETF 중 가장 약했어요. 업황 정점 우려와 금리 인상 우려가 겹쳤어요.", "points": ["조선은 2~3년 뒤 수주·이익이 꺾일 수 있다는 '피크아웃' 우려와 중국의 공격적 수주가 부담이었어요.", "전력기기는 환율에 따른 수출 수익성 우려와 미국 데이터센터 규제·중간선거 불확실성으로 목표주가가 내려갔어요.", "11/2 오전 10시 무렵에는 조선 +8%, 전력기기 +5~6%로 반등하고 있어요. 선박 발주 확대와 신조선가 상승 소식이 조선에 힘을 보탰어요."], "sources": [{"t": "서울파이낸스 · 반도체만이 아니다···조선·전력 대장주 줄줄이 52주 신저가", "u": "https://www.seoulfn.com/news/articleView.html?idxno=640138"}, {"t": "뉴스핌 · [특징주] 글로벌 선박 발주 확대·신조선가 상승에 조선株 급등", "u": "https://www.newspim.com/news/view/20261102000307"}]}, {"codes": ["494840", "474800", "452360", "489250", "0008S0", "458750", "458730", "458760", "418670", "476690", "440910"], "period": "1주 · 1개월", "title": "미국 방산 · 에너지 · 배당", "tone": "up", "summary": "기술주가 흔들리는 동안 미국 방산·원유·배당주 ETF가 한 달 새 7~11% 올랐어요.", "points": ["중동 긴장으로 브렌트유가 배럴당 100달러를 넘기며 엑슨모빌·셰브론 등 에너지주가 강했어요.", "AI 투자 부담 우려로 기술주에서 빠진 돈이 배당·방어주로 옮겨 갔어요 (추정). 사이버보안은 수요 개선 조사에 따로 강했어요."], "sources": [{"t": "TS2 · Nasdaq drops 2.1% as chip rout caps a 4.5% weekly slide (10/16)", "u": "https://ts2.tech/en/nasdaq-drops-2-1-as-chip-rout-caps-a-4-5-weekly-slide/"}, {"t": "24/7 Wall St. · Cybersecurity Stocks Rise as Evercore Survey Flags Strengthening Demand", "u": "https://247wallst.com/investing/2026/10/23/cybersecurity-stocks-rise-as-evercore-survey-flags-strengthening-demand-okta-crowdstrike-and-palo-alto-climb-4/"}]}, {"codes": ["0162L0", "396520"], "period": "1주", "title": "중국 반도체", "tone": "down", "summary": "아시아 기술주 매도가 번지며 중국 반도체 ETF가 1주일 새 10~11% 빠졌어요.", "points": ["30일 상하이·선전 지수가 1년여 만의 최저로 내렸고 캠브리콘·SMIC·하이곤도 함께 약했어요.", "인텔·아마존·알파벳 실적 뒤 반도체 수요와 AI 투자 회수에 대한 걱정이 커졌어요."], "sources": [{"t": "Trading Economics · China Stocks Hit Over 1-Year Low (10/30)", "u": "https://tradingeconomics.com/china/stock-market/news/596522"}]}, {"codes": ["0007G0"], "period": "1주", "title": "글로벌 원자력", "tone": "up", "summary": "국내 원전주가 체코 협상 결렬로 빠진 사이, 플루오르·카메코·BWXT 중심의 PLUS 글로벌원자력밸류체인은 1주일 새 7% 올랐어요.", "points": ["이번 상승을 직접 설명한 기사는 찾지 못했어요. 체코 이슈가 국내 종목에 한정된 영향으로 보여요 (추정)."], "sources": []}]}
+{
+  "generatedAt": "2026-11-09T09:39:47+09:00",
+  "dataAsOf": "2026-11-06",
+  "note": "11/6 종가 기준 최근 5거래일(1주)·20거래일(1개월) 수익률",
+  "items": [
+    {
+      "codes": [
+        "0239Z0",
+        "476260",
+        "471760",
+        "475310",
+        "388420",
+        "494220",
+        "0255E0",
+        "0220B0",
+        "475300",
+        "471990",
+        "455850",
+        "0162Y0"
+      ],
+      "period": "1주 · 1개월",
+      "title": "국내 반도체 소부장",
+      "tone": "down",
+      "summary": "지난주 반도체 테마가 평균 -18.37%, 한 달로는 -34.56%예요. HANARO 반도체핵심공정주도주는 1개월 -49.87%까지 빠졌어요.",
+      "points": [
+        "미국 중간선거에서 민주당이 상·하원을 장악하며 AI 데이터센터 규제와 반도체 수주 차질 우려가 커졌어요. 6일 코스피는 개장 3분 만에 서킷브레이커가 걸렸어요.",
+        "낙폭은 대형주보다 소부장과 코스닥 액티브 ETF에서 컸어요. 심텍·이오테크닉스 등이 5일 장중 13~16% 빠졌어요."
+      ],
+      "sources": [
+        {
+          "t": "비즈니스워치 · [AI 패닉] \"국내증시 한동안 변동 지속, 11월 이후 반등 기회\"",
+          "u": "https://news.bizwatch.co.kr/article/market/2026/11/06/0013"
+        },
+        {
+          "t": "머니투데이 · 블루웨이브 'AI 규제' 겁먹은 韓증시...\"삼전닉스 급락\" 매도 사이드카",
+          "u": "https://www.mt.co.kr/stock/2026/11/05/2026110510351380454"
+        }
+      ]
+    },
+    {
+      "codes": [
+        "0173Y0",
+        "0181B0"
+      ],
+      "period": "1주 · 1개월",
+      "title": "미국 AI 광통신 · 메모리",
+      "tone": "down",
+      "summary": "KODEX 미국AI광통신네트워크가 1주 -27.44%, 1개월 -46.18%, HANARO 미국AI메모리반도체TOP4+가 1주 -24.1%예요.",
+      "points": [
+        "5일 필라델피아 반도체지수가 12% 넘게 급락했고 나스닥은 조정 국면에 들어갔어요. 6일 +4.2%로 반등했지만 저가 매수와 공매도 청산 성격이 크다는 평가예요.",
+        "금리 상승으로 AI 투자의 요구수익률이 높아지고, 마이크로소프트가 오라클의 AI 컴퓨팅 임대 계약을 줄이는 점도 의구심을 키웠어요."
+      ],
+      "sources": [
+        {
+          "t": "Reuters(GV Wire) · Nasdaq rebounds as chips stocks recover from steep losses",
+          "u": "https://gvwire.com/2026/11/06/nasdaq-rebounds-as-chips-stocks-recover-from-steep-losses/"
+        },
+        {
+          "t": "Bloomberg(Swissinfo) · Chip stocks climb after rout, but AI doubts linger: Markets wrap",
+          "u": "https://www.swissinfo.ch/eng/chip-stocks-climb-after-rout%2c-but-ai-doubts-linger%3a-markets-wrap/92336450"
+        }
+      ]
+    },
+    {
+      "codes": [
+        "479730",
+        "453870",
+        "453810"
+      ],
+      "period": "1주 · 1개월",
+      "title": "인도 증시",
+      "tone": "up",
+      "summary": "TIGER 인도빌리언컨슈머 1주 +10.34%, TIGER 인도니프티50 1주 +10.13%, KODEX 인도Nifty50 1개월 +14.98%예요.",
+      "points": [
+        "AI 붐에서 소외됐던 인도가 기술주 급락의 반사이익을 얻었어요. 니프티50은 지난주 8.6% 올라 약 6년 만에 가장 큰 주간 상승폭을 기록했어요.",
+        "외국인이 약 6년 만의 최대 규모로 매수했고, 중동 긴장 완화 기대로 유가가 내린 점도 도움이 됐어요."
+      ],
+      "sources": [
+        {
+          "t": "뉴스핌 · [인도증시] AI 규제 우려 속 기술주 하락 '반사이익'...6년래 최장 랠리·최대 주간 상승 폭 기록",
+          "u": "https://www.newspim.com/news/view/20261106001262"
+        }
+      ]
+    },
+    {
+      "codes": [
+        "371160",
+        "372330",
+        "371460",
+        "099140",
+        "371470"
+      ],
+      "period": "1주",
+      "title": "중국 기술주 · 홍콩",
+      "tone": "up",
+      "summary": "TIGER 차이나항셍테크 +11.18%, KODEX 차이나항셍테크 +10.24%, KODEX 차이나H +7.88%로 1주 상위권이에요.",
+      "points": [
+        "미국 선거 뒤 AI 하드웨어에서 빠진 자금이 저평가된 중국 인터넷·소비주로 옮겨갔다는 분석이에요. 5일 항셍테크지수는 약 6% 올랐어요.",
+        "항셍테크의 선행 PER이 2024년 이후 최저인 13배까지 낮아졌던 점도 매수 이유로 꼽혀요."
+      ],
+      "sources": [
+        {
+          "t": "아주경제 · \"AI 반도체 대신 빅테크\" 홍콩증시 강세장 이유",
+          "u": "https://www.ajunews.com/view/20261105170706965"
+        }
+      ]
+    },
+    {
+      "codes": [
+        "227540",
+        "157490"
+      ],
+      "period": "1주 · 1개월",
+      "title": "국내 헬스케어 · 소프트웨어 순환매",
+      "tone": "up",
+      "summary": "TIGER 200 헬스케어는 1주 +8.37%, 1개월 +10.82%, TIGER 소프트웨어는 1주 +7.86%예요.",
+      "points": [
+        "5일 반도체가 무너질 때 셀트리온 +7.50%, 네이버 +8.26%, 카카오 +10.65%로 돈이 소외 업종으로 옮겨갔어요.",
+        "셀트리온에는 기관 순매수가 몰렸고, 카카오는 3분기 실적과 주주환원 방안이 재료가 됐어요."
+      ],
+      "sources": [
+        {
+          "t": "BigGo Finance · KOSPI Plunges More Than 5% for Second Day, but Kakao and Naver Surge Around 10%",
+          "u": "https://finance.biggo.com/news/bdf47ba2-7737-47a9-a729-f19e84cc9344"
+        }
+      ]
+    },
+    {
+      "codes": [
+        "429000",
+        "476690",
+        "453640",
+        "458730",
+        "483290",
+        "446720"
+      ],
+      "period": "1개월",
+      "title": "미국 배당 · 헬스케어",
+      "tone": "up",
+      "summary": "TIGER 미국S&P500배당귀족 +12.17%, TIGER 글로벌비만치료제TOP2Plus +11.65%, KODEX 미국S&P500헬스케어 +10.53%로 1개월 상위권이에요.",
+      "points": [
+        "10월 중순부터 금리 상승과 데이터센터 수익성 우려로 반도체에서 헬스케어 같은 방어 업종으로 자금이 옮겨갔어요. 헬스케어 ETF(XLV)는 사상 최고치를 경신했어요.",
+        "미국 배당주 ETF도 같은 방어 수요의 수혜로 보여요 (추정)."
+      ],
+      "sources": [
+        {
+          "t": "TheStreet · Investors fleeing AI find an unlikely new favorite",
+          "u": "https://www.thestreet.com/markets/investors-fleeing-ai-find-an-unlikely-new-favorite"
+        }
+      ]
+    }
+  ]
+}
