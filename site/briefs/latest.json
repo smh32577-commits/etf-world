@@ -1,131 +1,122 @@
 {
-  "generatedAt": "2026-11-10T09:32:56+09:00",
-  "dataAsOf": "2026-11-10T09:29:57+09:00",
-  "session": "장 초반 9시 30분",
+  "generatedAt": "2026-11-10T13:45:04+09:00",
+  "dataAsOf": "2026-11-10T13:33:18+09:00",
+  "session": "장중 10시",
   "market": {
-    "headline": "미국 반도체 급반등에 코스피 5%대 급등, 매수 사이드카까지 나왔어요",
+    "headline": "미국 반도체 반등에 코스피 4%대 상승, 전력기기 ETF가 가장 강해요",
     "points": [
-      "9시 30분 무렵 코스피는 5.17%, 코스닥은 4.13% 올랐어요. 9시 6분 코스피, 9시 10분 코스닥에 매수 사이드카가 발동됐어요.",
-      "밤사이 미국은 나스닥 2.74%, 필라델피아 반도체 6.86% 올랐어요. 반도체 저가 매수와 유가 하락이 투자 심리를 끌어올렸어요.",
-      "테마로는 전력·원자력(+8.7%)과 반도체(+7.1%)가 가장 강하고, 하락 ETF는 원유와 중국 쪽 몇 개뿐이에요.",
-      "장 초반 숫자라 장중에 바뀔 수 있어요. 오늘 밤 미국 소비자물가(CPI)와 코어위브 실적이 다음 변수로 꼽혀요."
+      "코스피는 장 초반 5% 넘게 올라 9시 6분 매수 사이드카가 나왔고, 13시 30분 무렵에도 3.93% 오른 5,216.19예요. 코스닥은 3.22% 올랐어요.",
+      "밤사이 필라델피아 반도체지수가 6.86%, 나스닥이 2.74% 올랐어요. 중동 긴장 완화 기대로 유가가 급락한 것도 투자 심리를 도왔어요.",
+      "외국인은 코스피에서 8거래일 만에 순매수로 돌아섰어요(장 초반 기준). 테마는 전력·원자력(+7.77%)이 가장 강하고 반도체(+5.34%)가 뒤를 이어요.",
+      "이번 회차는 늦게 실행돼 숫자가 10시가 아닌 13시 33분 기준이고, 장중에 바뀔 수 있어요."
     ]
   },
   "items": [
     {
       "codes": [
-        "396500",
-        "091160",
-        "0167A0",
-        "381180"
-      ],
-      "title": "반도체 ETF 일제히 7%안팎 급등",
-      "tone": "up",
-      "summary": "미국 반도체주 반등을 따라 SK하이닉스·삼성전자가 크게 오르며 반도체 ETF가 가장 많이 거래되고 있어요.",
-      "points": [
-        "TIGER 반도체TOP10 7.2%, KODEX 반도체 6.6%, SOL AI반도체TOP2플러스 7.2% 올랐어요. SK하이닉스 8.4%, 삼성전자 5.6%가 이끌었어요.",
-        "밤사이 AMD 13.3%, 브로드컴 8.8%, 마이크론 6.3%가 올랐어요. 엔비디아는 CEO 관련 내부 조사 소식에 4%대 내렸지만 AI 업황 문제로 번지진 않았어요.",
-        "TIGER 미국필라델피아반도체나스닥은 8.8% 올라 미국 반도체 상승분을 그대로 반영했어요."
-      ],
-      "watch": "외국인 순매수가 이어지는지, 오늘 밤 미국 CPI 결과",
-      "sources": [
-        {
-          "t": "디지털타임스 · 코스피, 美반도체주 급등에 매수 사이드카…SK하닉 7%↑",
-          "u": "https://www.dt.co.kr/article/12094153"
-        },
-        {
-          "t": "Motley Fool · Stock Market Today, Nov. 9: Markets Rally as Semiconductor Gains Lift Nasdaq",
-          "u": "https://www.fool.com/coverage/stock-market-today/2026/11/09/stock-market-today-nov-9-markets-rally-as-semiconductor-gains-lift-nasdaq/"
-        }
-      ]
-    },
-    {
-      "codes": [
-        "487240",
         "0117V0",
+        "487240",
+        "491820",
         "487230",
         "0123G0",
-        "434730"
+        "0155M0"
       ],
-      "title": "전력·원자력 ETF 9~10% 상승",
+      "title": "AI 전력기기 · 원전 ETF 8~10% 반등",
       "tone": "up",
-      "summary": "미국 AI 전력 인프라주가 반등하자 국내 전력기기·원전 ETF도 테마 중 가장 크게 올랐어요.",
+      "summary": "TIGER 코리아AI전력기기TOP3플러스 +9.0%, KODEX AI전력핵심설비 +8.55%, 미국 SMR ETF도 9~10% 올랐어요.",
       "points": [
-        "KODEX AI전력핵심설비 9.5%, TIGER 코리아AI전력기기TOP3플러스 9.9% 올랐어요. 효성중공업 11.4%, LS ELECTRIC 8.7%, HD현대일렉트릭 8.2%가 이끌었어요.",
-        "미국에선 컨스텔레이션에너지가 실적 호조와 연간 전망 상향으로 10% 넘게 오르며 GE버노바 등 AI 인프라주를 끌어올렸어요. 지난주 데이터센터 투자 우려로 빠졌던 부분을 일부 되찾았어요.",
-        "국내 전력기기주 강세는 이 흐름이 이어진 것으로 보여요(추정). 두산에너빌리티도 8%대 올랐어요."
+        "효성중공업이 장 초반 11%대, LS ELECTRIC·HD현대일렉트릭이 8~9% 올랐어요. 미국 데이터센터 규제 우려로 빠졌던 낙폭을 되돌리는 흐름이에요.",
+        "증권가는 인허가 지연이 당장 수주 취소나 실적 훼손으로 이어지긴 어렵다고 봤어요. 다만 주별 인허가가 바뀌면 내년 상반기 미국 수주가 늦어질 수 있다고 했어요.",
+        "미국 쪽은 오클로(+13.6%)·컨스텔레이션 에너지(+10%대)가 SMR·원전 ETF를 끌어올렸어요."
       ],
-      "watch": "AI 데이터센터 투자 관련 미국 빅테크·코어위브 실적 발표",
+      "watch": "미국 데이터센터 인허가 관련 주 정부 움직임",
       "sources": [
         {
-          "t": "Motley Fool · Stock Market Today, Nov. 9: Markets Rally as Semiconductor Gains Lift Nasdaq",
-          "u": "https://www.fool.com/coverage/stock-market-today/2026/11/09/stock-market-today-nov-9-markets-rally-as-semiconductor-gains-lift-nasdaq/"
+          "t": "이투데이 · [특징주] 전력기기주 동반 반등…효성중공업 11%대 급등",
+          "u": "https://www.etoday.co.kr/news/view/2646138"
         },
         {
-          "t": "디지털타임스 · 코스피, 美반도체주 급등에 매수 사이드카…SK하닉 7%↑",
-          "u": "https://www.dt.co.kr/article/12094153"
+          "t": "TradingKey · Oil Plunge Boosts US Stocks as Dow Surges 1,100 Points, Nasdaq Rises 2.74%",
+          "u": "https://www.tradingkey.com/analysis/stocks/us-stocks/262297330-oil-drop-us-stocks-rally-dow-1100-nasdaq-amd-nvda-tradingkey"
         }
       ]
     },
     {
       "codes": [
         "0173Y0",
-        "0127R0"
+        "0127R0",
+        "0190M0",
+        "0181B0"
       ],
-      "title": "미국 AI 광통신·클라우드 ETF 12~14% 급등",
+      "title": "미국 AI 광통신 · 메모리 ETF 9~11% 급등",
       "tone": "up",
-      "summary": "광통신 부품주가 크게 오르며 상승률 상위를 차지했어요.",
+      "summary": "KODEX 미국AI광통신네트워크가 +11.35%로 오늘 상승률 1위예요. 코히런트(+17.5%)·루멘텀·시에나가 끌었어요.",
       "points": [
-        "KODEX 미국AI광통신네트워크 14.0%, RISE 미국AI클라우드인프라 12.3% 올랐어요. 코히런트 18.8%, 루멘텀 13.3%, 시에나 12.7%가 이끌었어요.",
-        "반도체·AI 인프라주 전반의 저가 매수 흐름에 함께 오른 것으로 보여요(추정)."
+        "9일(현지) 필라델피아 반도체지수가 6.9% 올라 10,000선을 되찾았어요. AMD +13.3%, 웨스턴디지털 +9.9%, 마이크론 +6.3%로 메모리·스토리지가 반등을 이끌었어요.",
+        "모건스탠리는 중간선거 뒤 AI 매도가 과했다며, 정책 변화는 장기 AI 수요보다 일정에 영향을 준다고 봤어요.",
+        "엔비디아는 젠슨 황 CEO 관련 이사회 조사 소식에 4.3% 내려 혼자 약했어요."
       ],
-      "watch": "오늘 밤 코어위브 실적과 AI 인프라 투자 전망",
+      "watch": "오늘 밤 미국 10월 소비자물가(CPI), 엔비디아 조사 진행 상황",
       "sources": [
         {
-          "t": "Motley Fool · Stock Market Today, Nov. 9: Markets Rally as Semiconductor Gains Lift Nasdaq",
-          "u": "https://www.fool.com/coverage/stock-market-today/2026/11/09/stock-market-today-nov-9-markets-rally-as-semiconductor-gains-lift-nasdaq/"
+          "t": "TradingKey · Philadelphia Semiconductor Index Jumps 6%, Reclaims 10,000",
+          "u": "https://www.tradingkey.com/analysis/stocks/us-stocks/262296975-philadelphia-semiconductor-index-reclaims-10000-morgan-stanley-ai-stock-opportunities-nvidia-broadcom-tradingkey"
+        },
+        {
+          "t": "중앙이코노미뉴스 · 엔비디아, '젠슨황 악재'에 4.3% 급락…시총 258조원 증발",
+          "u": "https://www.joongangenews.com/news/articleView.html?idxno=562492"
         }
       ]
     },
     {
       "codes": [
+        "069500",
         "122630",
-        "229200",
         "233740",
-        "069500"
+        "252670",
+        "114800"
       ],
-      "title": "레버리지에 돈 몰리고 인버스는 급락",
+      "title": "코스피 레버리지에 돈 몰리고 인버스는 급락",
       "tone": "up",
-      "summary": "거래대금 상위가 지수형 ETF로 채워졌고, 레버리지는 두 자릿수로 올랐어요.",
+      "summary": "KODEX 200(1조7천억원대)·KODEX 레버리지(1조1천억원대)가 거래대금 1·2위이고, KODEX 레버리지는 +8.4%예요.",
       "points": [
-        "KODEX 200이 거래대금 1위(약 3,320억원)이고 5.7% 올랐어요. KODEX 레버리지는 11.1%, KODEX 코스닥150레버리지는 9.7% 올랐어요.",
-        "KODEX 인버스는 5.7%, KODEX 200선물인버스2X는 11.7% 내렸지만 거래대금은 여전히 상위권이에요.",
-        "9시 4분 기준 외국인이 순매수, 개인이 순매도로 출발했어요."
+        "삼성전자가 20만원대를 되찾고 SK하이닉스가 7~8% 오르며 지수형 ETF를 끌어올렸어요.",
+        "KODEX 200선물인버스2X는 -9.37%, KODEX 인버스는 -4.36%인데도 거래대금이 각각 9천억원대로 많아요. 반등 뒤 하락에 대비하는 수요도 크다는 뜻으로 보여요 (추정).",
+        "전날(9일)까지 외국인이 7거래일 연속 순매도해 코스피가 5,018.85까지 밀렸던 터라 낙폭이 큰 대형주에 저가 매수가 들어왔어요."
       ],
-      "watch": "코스피 5,200선 유지 여부",
+      "watch": "외국인 순매수가 오후까지 이어지는지",
       "sources": [
         {
-          "t": "디지털타임스 · 코스피, 美반도체주 급등에 매수 사이드카…SK하닉 7%↑",
-          "u": "https://www.dt.co.kr/article/12094153"
+          "t": "마이데일리 · 美 반도체 랠리에 '매수 사이드카'…코스피 5300선 터치",
+          "u": "https://www.mydaily.co.kr/page/view/2026111010010792056"
+        },
+        {
+          "t": "서울신문 · 삼성전자 5%·SK하이닉스 7% 강세… 코스피 5272선 반등",
+          "u": "https://seoul.co.kr/news/economy/securities/2026/11/10/20261110500048"
+        },
+        {
+          "t": "뉴스핌 · [마감시황] 코스피 5018선 후퇴…반도체 반등 속 2차전지·바이오 부진",
+          "u": "https://www.newspim.com/news/view/20261109001082"
         }
       ]
     },
     {
       "codes": [
-        "261220"
+        "261220",
+        "130680"
       ],
-      "title": "원유 ETF만 약세",
+      "title": "원유 ETF만 4%대 약세",
       "tone": "down",
-      "summary": "미국·이란 대화 기대에 국제유가가 떨어지며 원유 ETF가 하락률 1위예요.",
+      "summary": "KODEX WTI원유선물(H) -4.54%, TIGER 원유선물Enhanced(H) -4.45%로 오늘 하락률 1·2위예요.",
       "points": [
-        "KODEX WTI원유선물(H)이 3.9% 내렸어요.",
-        "트럼프 대통령의 이란 관련 유화 발언으로 미국·이란 협상 기대가 커지면서 WTI가 4% 넘게 하락했어요."
+        "9일(현지) 브렌트유는 5.91% 내린 92.19달러, WTI는 4.41% 내린 86.37달러였어요. 중동 공급 위험이 커질 거라는 우려가 줄었어요.",
+        "유가 하락은 물가 부담을 덜어 주식시장에는 호재로 받아들여졌어요."
       ],
-      "watch": "미국·이란 협상 관련 후속 발언",
+      "watch": "중동 협상 소식, 미국 CPI",
       "sources": [
         {
-          "t": "디지털타임스 · 코스피, 美반도체주 급등에 매수 사이드카…SK하닉 7%↑",
-          "u": "https://www.dt.co.kr/article/12094153"
+          "t": "TradingKey · Oil Plunge Boosts US Stocks as Dow Surges 1,100 Points, Nasdaq Rises 2.74%",
+          "u": "https://www.tradingkey.com/analysis/stocks/us-stocks/262297330-oil-drop-us-stocks-rally-dow-1100-nasdaq-amd-nvda-tradingkey"
         }
       ]
     }
