@@ -21,7 +21,7 @@ API 키 없이 Claude Code 세션(또는 예약 실행)이 직접 뉴스를 찾�
 5. 커밋·푸시 → 다음 10분 주기 배포에 반영
 
 ## 요즘 트렌드 (site/briefs/trends.json)
-장 마감 종합 회차에서 함께 갱신한다 (최소 주 1회).
+매 영업일 오전 10시(KST) 기준으로 갱신한다. 전용 예약 작업 "ETF 요즘 트렌드 오전 10시 갱신"이 live.json(10시 이후 데이터)으로 매일 작성한다.
 1. `site/data/live.json`의 `rank.trend.w1 / m1`(최근 1주·1개월 수익률 상·하위 ETF, 테마별 시총가중 평균)을 확인
 2. 상위·하위에 몰린 테마를 4~6개 이야기로 묶고, 각 이야기의 원인을 기사로 확인
 3. 형식: `{generatedAt, dataAsOf, note, items:[{codes, period:"1주"|"1개월"|"1주 · 1개월", title, tone, summary, points, sources}]}`
