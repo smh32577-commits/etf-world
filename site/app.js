@@ -4,7 +4,7 @@
 
   const $app = document.getElementById("app");
   const cache = {};
-  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false, newsTag: "전체", newsAll: false };
+  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false, newsTag: "전체", newsAll: false, pickRange: "3M" };
 
   // ── 데이터 ─────────────────────────────────────────────
   async function getJSON(path, { fresh = false } = {}) {
@@ -26,6 +26,7 @@
   const getBrief = () => getBriefFile("latest");
   const getBriefIndex = () => getBriefFile("index").then(x => x?.briefs || []);
   const getTrends = () => getBriefFile("trends");
+  const getPicks = () => getBriefFile("picks");
   const getNews = () => getJSON("news.json").catch(() => null);
 
   setInterval(async () => {                       // 2분마다 최신 live.json 확인
@@ -229,6 +230,97 @@
         ${stories.map(it => briefItem({ ...it, title: `${it.title} · ${it.period}` }, universeMap, { open: false })).join("")}</details>` : ""}`;
   }
 
+
+  // ── 이번 주 추천 ETF (briefs/picks.json, 매주 월요일 오전 10시 선정) ──────────
+  const PICK_COLORS = ["var(--up)", "var(--accent)"];
+  function pickCardShell(pk) {
+    if (!pk?.picks?.length) return "";
+    return `<section class="card" id="picks">
+      <div class="card-head" style="margin-bottom:10px"><div><div class="card-title">이번 주 추천 ETF</div>
+        <div class="card-sub">${esc(pk.week || "")} 선정 · AI 선정, 투자 권유 아님</div></div></div>
+      ${seg("pickRange", [["1M", "1개월"], ["3M", "3개월"], ["6M", "6개월"], ["1Y", "1년"]], state.pickRange)}
+      <div id="pickBody">${skeleton(3)}</div>
+    </section>`;
+  }
+  async function drawPicks() {
+    const el = document.getElementById("pickBody");
+    if (!el) return;
+    const [pk, { live, U }] = await Promise.all([getPicks(), base()]);
+    const picks = (pk?.picks || []).filter(p => U[p.code]);
+    if (!picks.length) { el.innerHTML = `<div class="empty">이번 주 추천이 아직 없어요.</div>`; return; }
+    const ds = await Promise.all(picks.map(p => getJSON(`etf/${p.code}.json`).catch(() => null)));
+    const days = { "1M": 22, "3M": 66, "6M": 128, "1Y": 260 }[state.pickRange];
+    // 날짜를 맞춘 누적 수익률(%) + 오늘 현재가
+    const series = ds.map((d, i) => {
+      const m = new Map((d?.chart || []).map(p => [p[0], p[1]]));
+      const e = live.etfs[picks[i].code];
+      const todayK = (live.updated || "").slice(0, 10).replace(/-/g, "");
+      if (e?.p && live.mode === "official" && !m.has(todayK)) m.set(todayK, e.p);
+      return m;
+    });
+    let dates = [...series[0].keys()].filter(k => series.every(m => m.has(k))).sort().slice(-days);
+    const lines = series.map(m => { const b0 = m.get(dates[0]); return dates.map(k => (m.get(k) / b0 - 1) * 100); });
+    const W = 600, H = 200, P = 10;
+    const all = lines.flat(), min = Math.min(0, ...all), max = Math.max(0, ...all), span = max - min || 1;
+    const x = i => (i / Math.max(dates.length - 1, 1)) * W, y = v => P + (1 - (v - min) / span) * (H - P * 2);
+    const paths = lines.map((l, j) => `<path d="${l.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")}" fill="none" stroke="${PICK_COLORS[j]}" stroke-width="2.2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`).join("");
+    const legend = picks.map((p, j) => `<span class="pleg"><i style="background:${PICK_COLORS[j]}"></i>${esc(p.market)} · ${esc(U[p.code].n)} <b class="${cls(lines[j].at(-1))}">${pct(lines[j].at(-1))}</b></span>`).join("");
+    const chart = dates.length > 1 ? `<div class="chart-wrap"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="추천 ETF 수익률 비교">
+        <line x1="0" x2="${W}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/>
+        ${paths}
+        <line id="pcx" y1="0" y2="${H}" stroke="var(--text-3)" stroke-width="1" vector-effect="non-scaling-stroke" visibility="hidden"/></svg>
+        <div class="chart-tip" id="ptip" style="visibility:hidden"></div></div>
+      <div class="pleg-wrap">${legend}</div>
+      <div class="chart-foot"><span class="count">${fmtDate(dates[0])} ~ ${fmtDate(dates.at(-1))} · 같은 날 100으로 맞춘 누적 수익률</span></div>`
+      : `<div class="empty">차트 데이터가 없어요.</div>`;
+
+    const block = (p, d, j) => {
+      const u = U[p.code], m = d?.meta || {}, e = live.etfs[p.code] || {};
+      const hs = (d?.holdings || []).filter(h => h.w > 0).slice(0, 5), maxW = Math.max(...hs.map(h => h.w), 1);
+      const since = p.p0 && e.p ? (e.p / p.p0 - 1) * 100 : null;
+      return `<div class="pick">
+        <a class="pick-h" href="#/etf/${p.code}"><span class="pdot" style="background:${PICK_COLORS[j]}"></span>
+          <div style="min-width:0;flex:1"><div class="pick-m">${esc(p.market)} 추천 · ${p.code}</div><div class="pick-n">${esc(u.n)}</div></div>
+          <div class="row-side">${priceSide(e.p, e.ch)}</div></a>
+        <div class="pick-t">${esc(p.title)}</div>
+        <p class="pick-s">${esc(p.summary)}</p>
+        <ul class="bpoints">${(p.points || []).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+        <div class="kv pick-kv">
+          ${kv("운용사", esc(m.issuer || u.is || "—"))}
+          ${kv("기초지수", esc(m.base || "—"))}
+          ${kv("총보수", m.fee != null ? `${m.fee.toFixed(4).replace(/0+$/, "")}%` : "—")}
+          ${kv("순자산", eok(m.aum))}
+          ${kv("상장일", m.listed ? `${m.listed.slice(0, 4)}.${m.listed.slice(4, 6)}.${m.listed.slice(6)}` : "—")}
+          ${kv("배당수익률", m.divYield != null ? `${m.divYield}%` : "—")}
+          ${kv("1개월 · 3개월", `<span class="${cls(d?.returns?.M1)}">${pct(d?.returns?.M1, 1)}</span> · <span class="${cls(d?.returns?.M3)}">${pct(d?.returns?.M3, 1)}</span>`)}
+          ${kv("선정 이후", since != null ? `<span class="${cls(since)}">${pct(since)}</span>` : "—")}
+        </div>
+        ${hs.length ? `<div class="pick-sub">편입 상위 ${hs.length}종목 <span class="count">${esc(d.hDate || "")} 기준 · 전체 ${d.holdings.filter(h => h.w > 0).length}종목</span></div>
+          ${hs.map(h => `<div class="hrow"><div style="flex:1;min-width:0"><div class="hname">${esc(h.n)}</div>
+            <div class="hbar" style="width:${(h.w / maxW) * 100}%"></div></div><div class="hw">${h.w.toFixed(2)}%</div></div>`).join("")}` : ""}
+        ${p.watch ? `<div class="bwatch"><b>볼 포인트</b> ${esc(p.watch)}</div>` : ""}
+        ${(p.sources || []).length ? `<div class="bsrc">${p.sources.map(x => `<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a>`).join("")}</div>` : ""}
+      </div>`;
+    };
+    el.innerHTML = chart + picks.map((p, j) => block(p, ds[j], j)).join("")
+      + `<p class="note">${esc(pk.note || "")}${pk.note ? " " : ""}매주 월요일 오전 10시에 국내 주식형 1개, 미국 투자 1개를 AI가 골라요. 참고용이며 투자 권유가 아니에요.</p>`;
+
+    const wrap = el.querySelector(".chart-wrap");
+    if (!wrap) return;
+    const svg = wrap.querySelector("svg"), cx = svg.querySelector("#pcx"), tip = wrap.querySelector("#ptip");
+    const move = ev => {
+      const rect = svg.getBoundingClientRect();
+      const i = Math.round((Math.min(Math.max(ev.clientX - rect.left, 0), rect.width) / rect.width) * (dates.length - 1));
+      cx.setAttribute("x1", x(i)); cx.setAttribute("x2", x(i)); cx.setAttribute("visibility", "visible");
+      tip.innerHTML = `${fmtDate(dates[i])} ${lines.map((l, j) => `<b style="color:${PICK_COLORS[j]}">${pct(l[i], 1)}</b>`).join(" ")}`;
+      const px = (x(i) / W) * rect.width;
+      tip.style.left = Math.min(Math.max(px, 90), rect.width - 90) + "px"; tip.style.visibility = "visible";
+    };
+    wrap.addEventListener("pointermove", move);
+    wrap.addEventListener("pointerdown", move);
+    wrap.addEventListener("pointerleave", () => { cx.setAttribute("visibility", "hidden"); tip.style.visibility = "hidden"; });
+  }
+
   // ── 미국 ETF ──────────────────────────────────────────
   const US_TABS = [["d10", "10일 상승률"], ["up", "오늘 급등"], ["down", "오늘 급락"]];
   function usBody(live, key) {
@@ -242,7 +334,7 @@
       return etfRow(e, { idx: i + 1, plain: true, meta, side: badgeSide(e.ch) });
     }).join("");
     const note = key === "d10"
-      ? `${live.rank.trend?.asOf ? fmtDate(live.rank.trend.asOf) + " 종가 기준 " : ""}최근 10거래일 수익률이에요.`
+      ? `${trendBasis(live)}최근 10거래일 수익률이에요.`
       : "오늘 등락률이에요. 거래대금 1억 이상만 넣었어요.";
     return `<div class="list">${rows}</div><p class="note">${note} 미국 상장 종목 비중 50% 이상이거나 이름에 '미국'이 들어간 ETF ${fmt(us.n)}개 중, 레버리지·인버스·채권형과 시총 100억 미만은 제외했어요.</p>`;
   }
@@ -267,7 +359,7 @@
       }
       return etfRow(e, { idx: i + 1, plain: true, meta: esc((e.top || []).join(" · ")), side: badgeSide(e.r) });
     }).join("");
-    const asOf = live.rank.trend?.asOf ? fmtDate(live.rank.trend.asOf) + " 종가 기준 " : "";
+    const asOf = trendBasis(live);
     const note = {
       best: `${asOf}최근 1개월(20거래일) 수익률이에요. 국내 주식형 ETF ${fmt(kr.n)}개 대상이에요(레버리지·인버스·선물형, 시총 100억 미만 제외).`,
       worst: `${asOf}최근 1개월(20거래일) 수익률이에요. 국내 주식형 ETF ${fmt(kr.n)}개 대상이에요(레버리지·인버스·선물형, 시총 100억 미만 제외).`,
@@ -309,7 +401,7 @@
   }
 
   async function home() {
-    const [{ live, U }, b, bIdx, tr, news] = await Promise.all([base(), getBrief(), getBriefIndex(), getTrends(), getNews()]);
+    const [{ live, U }, b, bIdx, tr, news, pk] = await Promise.all([base(), getBrief(), getBriefIndex(), getTrends(), getNews(), getPicks()]);
     state.news = news;
     state.trends = tr;
     const r = live.rank;
@@ -404,9 +496,11 @@
         <div id="usBody">${usBody(live, state.usKey)}</div>
       </section>` : ""}
 
+      ${pickCardShell(pk)}
+
       <section class="card">
         <div class="card-head" style="margin-bottom:12px"><div><div class="card-title">요즘 트렌드</div>
-          <div class="card-sub">${live.rank.trend?.asOf ? fmtDate(live.rank.trend.asOf) + " 종가 기준 · " : ""}시총 300억 이상 · 레버리지·인버스 제외</div></div>
+          <div class="card-sub">${trendBasis(live) ? trendBasis(live) + "· " : ""}시총 300억 이상 · 레버리지·인버스 제외</div></div>
           ${seg("trendKey", [["w1", "1주"], ["m1", "1개월"]], state.trendKey)}</div>
         <div id="trendBody">${trendBody(live, tr, state.trendKey)}</div>
       </section>
@@ -675,6 +769,8 @@
     wrap.addEventListener("pointerleave", leave);
   }
   const fmtDate = s => `${s.slice(2, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}`;
+  // 기간 수익률 기준: 영업일 오전 10시 시세 스냅샷이 있으면 그 시각, 없으면 전일 종가
+  const trendBasis = live => { const t = live.rank.trend || {}; return t.at ? `${hhmm(t.at)} 시세 기준 ` : t.asOf ? `${fmtDate(t.asOf)} 종가 기준 ` : ""; };
 
   function drawHoldings(d, q) {
     const el = document.getElementById("holdings");
@@ -740,7 +836,7 @@
       else if (parts[0] === "my") await my();
       else if (parts[0] === "brief") await brief(params);
       else if (parts[0] === "etf" && parts[1]) await detail(parts[1]);
-      else await home();
+      else { await home(); drawPicks(); }
     } catch (err) {
       console.error(err);
       $app.innerHTML = `<div class="card" style="margin-top:20px"><div class="empty">데이터를 불러오지 못했어요.<br>잠시 후 다시 시도해 주세요.</div></div>`;
@@ -770,6 +866,12 @@
         state.usKey = t.dataset.v;
         t.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === t));
         base().then(({ live }) => { document.getElementById("usBody").innerHTML = usBody(live, state.usKey); });
+        return;
+      }
+      if (t.dataset.seg === "pickRange") {
+        state.pickRange = t.dataset.v;
+        t.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === t));
+        drawPicks();
         return;
       }
       if (t.dataset.seg === "range") {

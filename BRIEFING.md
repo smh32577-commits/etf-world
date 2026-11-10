@@ -27,6 +27,17 @@ API 키 없이 Claude Code 세션(또는 예약 실행)이 직접 뉴스를 찾�
 3. 형식: `{generatedAt, dataAsOf, note, items:[{codes, period:"1주"|"1개월"|"1주 · 1개월", title, tone, summary, points, sources}]}`
    - `codes`에는 순위에 오른 ETF 코드를 모두 넣는다 (홈에서 해당 ETF 옆에 이유가 표시됨)
 
+## 이번 주 추천 ETF (site/briefs/picks.json)
+매주 첫 영업일 오전 10시(KST)에 새로 고른다. 그 주 중간에 파일이 없거나 week 가 이번 주가 아니면 그날 10시 회차에서 만든다.
+- 한국 1개: universe.json 의 tab 1·2(국내 시장지수·업종/테마) 주식형
+- 미국 1개: live.json rank.us 대상과 같은 기준(미국 상장 종목 비중 50% 이상이거나 이름에 '미국')
+- 공통 제외: 레버리지·인버스·합성·선물형, 금리·채권형, 시가총액(live.json etfs[].mc, 억) 1,000억 미만, 오늘 거래대금이 너무 적은 ETF
+- 고르는 근거: 10시 스냅샷 1주·1개월 흐름(rank.trend, rank.us.d10, rank.kr), 테마 흐름, 그리고 기사로 확인한 이번 주 재료. 지난주와 같은 ETF는 되도록 피한다
+- 형식: `{generatedAt, week:"MM/DD 주", dataAsOf, note, picks:[{market:"한국"|"미국", code, title, summary, points(2~3개), watch, p0, sources}]}`
+  - `p0`: 선정 시점 live.json 가격(화면의 '선정 이후' 수익률 기준)
+  - `title`은 고른 이유 한 줄, `summary`는 무엇에 투자하는 ETF인지 한 문장. 운용사·보수·편입비율·차트는 화면이 데이터로 채운다
+- '추천'은 화면 이름일 뿐이다. 문장에는 매수·매도 권유 표현을 쓰지 않고, 근거와 확인할 위험만 쓴다
+
 ## 작성 원칙
 - 수치(등락률, 거래대금, 비중)는 우리 데이터 기준, 원인은 기사 기준. 둘을 섞지 않는다
 - 기사로 확인되지 않은 해석은 문장 끝에 `(추정)`

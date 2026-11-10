@@ -227,6 +227,28 @@ def main():
             surge.append((c, e["v"] / a))
     surge.sort(key=lambda x: -x[1])
 
+    # ── 기간 수익률(1주·10일·1개월): 매 영업일 오전 10시 시세로 하루 한 번 다시 계산 ──
+    # 10시 이후 첫 실행에서 '지금가 ÷ N거래일 전 종가'로 스냅샷을 만들고, 다음 영업일 10시까지 그대로 쓴다.
+    # 스냅샷이 없으면(기준 종가 없음 등) daily.py 의 종가 기준 값을 쓴다.
+    prev_snap = (load("live.json") or {}).get("snap") or {}
+    today_s = today.strftime("%Y%m%d")
+    snap = prev_snap if prev_snap.get("at") else None
+    if krx_today and hm >= 1000 and not force and (prev_snap.get("at") or "")[:10] != today.isoformat():
+        vals = {}
+        for c, e in etfs.items():
+            u = universe.get(c) or {}
+            cl, px = u.get("cl"), e.get("p")
+            if not cl or not px or (u.get("asOf") or "") >= today_s:
+                continue
+            vals[c] = {k: round((px / cl[-n] - 1) * 100, 2) for k, n in (("w1", 5), ("d10", 10), ("m1", 20))
+                       if len(cl) >= n and cl[-n]}
+        if len(vals) > 100:
+            snap = {"at": now.isoformat(timespec="minutes"), "v": vals}
+    def R(c, k):
+        if snap:
+            return (snap["v"].get(c) or {}).get(k)
+        return (universe.get(c) or {}).get(k)
+
     # ── 미국 ETF: 미국 상장 종목 비중 50% 이상이거나 이름에 '미국'. 레버리지·인버스·금리·채권형 제외, 시총 100억 이상 ──
     # 로이터코드 접미사: 없음=NYSE, .O=나스닥, .K/.N/.A/.P=기타 미국 거래소 (.T 일본, .SS/.SZ/.HK 중국 등은 제외)
     def us_listed_w(c):
@@ -235,7 +257,7 @@ def main():
         u = universe.get(c) or {}
         return (us_listed_w(c) >= 50 or "미국" in u.get("n", "")) and not ({"lev", "inv"} & set(u.get("f", [])))
     us_all = [c for c, e in etfs.items() if e["mc"] >= 100 and not parking(c) and is_us(c)]
-    us_d10 = sorted((c for c in us_all if universe[c].get("d10") is not None), key=lambda c: -universe[c]["d10"])[:10]
+    us_d10 = sorted((c for c in us_all if R(c, "d10") is not None), key=lambda c: -R(c, "d10"))[:10]
     us_live = [c for c in us_all if etfs[c]["am"] >= 100]                    # 거래대금 1억 이상
     us_up = sorted(us_live, key=lambda c: -etfs[c]["ch"])[:10]
     us_down = sorted(us_live, key=lambda c: etfs[c]["ch"])[:10]
@@ -246,9 +268,9 @@ def main():
         return bool({"lev", "inv"} & set(u.get("f", []))) or "숏" in u.get("n", "")
     kr_all = [c for c, e in etfs.items() if e["mc"] >= 100 and (universe.get(c) or {}).get("tab") in (1, 2)
               and not leveraged(c) and "futures" not in universe[c].get("f", [])]
-    kr_m1 = [c for c in kr_all if universe[c].get("m1") is not None]
-    kr_best = sorted(kr_m1, key=lambda c: -universe[c]["m1"])[:10]
-    kr_worst = sorted(kr_m1, key=lambda c: universe[c]["m1"])[:10]
+    kr_m1 = [c for c in kr_all if R(c, "m1") is not None]
+    kr_best = sorted(kr_m1, key=lambda c: -R(c, "m1"))[:10]
+    kr_worst = sorted(kr_m1, key=lambda c: R(c, "m1"))[:10]
     # 신규상장: 전체 ETF 중 상장일 최신순
     kr_new = sorted((c for c in etfs if (universe.get(c) or {}).get("ls")), key=lambda c: universe[c]["ls"], reverse=True)[:5]
     # 기관·외국인 순매수: 마지막 확정 거래일에 둘 다 순매수한 ETF, 합산 금액 순. 금리·채권형·레버리지·인버스 제외
@@ -320,14 +342,14 @@ def main():
     big = [c for c in etfs if etfs[c]["mc"] >= 300 and not parking(c)
            and not ({"lev", "inv", "synthetic", "futures"} & set((universe.get(c) or {}).get("f", [])))]
     for key in ("w1", "m1"):
-        has = [c for c in big if (universe.get(c) or {}).get(key) is not None]
-        rows = lambda cs: [{"c": c, "n": universe[c]["n"], "r": universe[c][key], "p": etfs[c]["p"],
+        has = [c for c in big if R(c, key) is not None]
+        rows = lambda cs: [{"c": c, "n": universe[c]["n"], "r": R(c, key), "p": etfs[c]["p"],
                             "top": universe[c].get("top", [])[:3]} for c in cs]
         trend[key] = {
-            "up": rows(sorted(has, key=lambda c: -universe[c][key])[:10]),
-            "down": rows(sorted(has, key=lambda c: universe[c][key])[:10]),
+            "up": rows(sorted(has, key=lambda c: -R(c, key))[:10]),
+            "down": rows(sorted(has, key=lambda c: R(c, key))[:10]),
             "themes": [{k: v for k, v in th.items() if k != "etfs"}
-                       for th in theme_stats(lambda c, e, u: u.get(key))][:12],
+                       for th in theme_stats(lambda c, e, u: R(c, key))][:12],
         }
     asof = next((u.get("asOf") for u in universe.values() if u.get("asOf")), None)
 
@@ -362,6 +384,7 @@ def main():
         "anchor": anchor_date.isoformat(),
         "fx": {"now": round(fx_now, 2), "anchor": round(fx_anchor, 2), "chg": round(r_fx * 100, 3)},
         "indices": indices,
+        "snap": snap,
         "etfs": etfs,
         "rank": {
             "hotAt": hot_at,
@@ -372,17 +395,17 @@ def main():
             "losers": [pack(c) for c in losers],
             "surge": [pack(c, sr=round(r, 1)) for c, r in surge[:15]],
             "themes": theme_list[:12],
-            "trend": {**trend, "asOf": asof},
+            "trend": {**trend, "asOf": asof, "at": snap["at"] if snap else None},
             "us": {
-                "d10": [{"c": c, "n": universe[c]["n"], "r": universe[c]["d10"], "p": etfs[c]["p"],
+                "d10": [{"c": c, "n": universe[c]["n"], "r": R(c, "d10"), "p": etfs[c]["p"],
                          "top": universe[c].get("top", [])[:3]} for c in us_d10],
                 "up": [pack(c) for c in us_up],
                 "down": [pack(c) for c in us_down],
                 "n": len(us_all),
             },
             "kr": {
-                "best": [kr_row(c, r=universe[c]["m1"]) for c in kr_best],
-                "worst": [kr_row(c, r=universe[c]["m1"]) for c in kr_worst],
+                "best": [kr_row(c, r=R(c, "m1")) for c in kr_best],
+                "worst": [kr_row(c, r=R(c, "m1")) for c in kr_worst],
                 "new": [kr_row(c, ls=universe[c]["ls"], iss=universe[c].get("is")) for c in kr_new],
                 "flow": [kr_row(c, f=universe[c]["fl"][1], o=universe[c]["fl"][2]) for c in flow_top],
                 "flowDate": flow_date,

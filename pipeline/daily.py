@@ -168,6 +168,7 @@ def main(limit=None):
             "div": meta.get("divYield"), "r1m": rets.get("M1"), "r3m": rets.get("M3"),
             "r1y": rets.get("Y1"), "avg20": round(avg20) if avg20 else None,
             "w1": w1, "d10": d10, "m1": m1, "asOf": done[-1][0] if done else None,
+            "cl": [c[1] for c in done[-21:]],   # 최근 21거래일 종가: live.py 가 오전 10시 시세로 기간 수익률을 다시 계산할 때 기준가
             "usW": round(us_w, 1), "krW": round(kr_w, 1), "nh": len(holds),
             "ls": meta.get("listed"), "fl": flow,
             "top": [h["n"] for h in holds if h["t"] != "현금"][:3],
