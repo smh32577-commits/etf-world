@@ -237,17 +237,15 @@
     const picks = (pk?.picks || []).filter(p => U[p.code]);
     if (!picks.length) return "";
     const open = state.pickOpen;
-    return `<section class="card" id="picks">
-      <button class="pick-toggle" data-act="pickToggle" aria-expanded="${open}">
-        <div class="pick-tl"><div class="card-title">이번 주 추천 ETF</div>
-          <div class="pick-mini">${picks.map((p, j) => `<span><i style="background:${PICK_COLORS[j]}"></i>${esc(p.market)} · ${esc(U[p.code].n)}</span>`).join("")}</div></div>
-        <span class="pick-btn">${open ? "접기" : "비교 보기"}<svg viewBox="0 0 24 24" width="16" height="16" style="transform:rotate(${open ? 180 : 0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </button>
-      ${open ? `<div class="pick-open">
-        <div class="pick-bar"><span class="card-sub">${esc(pk.week || "")} 선정 · AI 선정, 투자 권유 아님</span>
+    const btn = `<button class="pick-cta ${open ? "on" : ""}" data-act="pickToggle" aria-expanded="${open}">
+        <span>📈 이번 주 미국·국내 ETF 수익률 비교!</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" style="transform:rotate(${open ? 180 : 0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+    return `<div id="picks">${btn}
+      ${open ? `<section class="card pick-card">
+        <div class="pick-bar"><div><div class="card-title">이번 주 추천 ETF</div><div class="card-sub">${esc(pk.week || "")} 선정 · AI 선정, 투자 권유 아님</div></div>
           ${seg("pickRange", [["1M", "1개월"], ["3M", "3개월"], ["6M", "6개월"], ["1Y", "1년"]], state.pickRange)}</div>
-        <div id="pickBody">${skeleton(3)}</div></div>` : ""}
-    </section>`;
+        <div id="pickBody">${skeleton(3)}</div></section>` : ""}
+    </div>`;
   }
   async function drawPicks() {
     const el = document.getElementById("pickBody");
@@ -464,6 +462,7 @@
     $app.innerHTML = `
       <div class="topline">${statusPill(live)}</div>
       <div class="ticker">${ticker}</div>
+      ${pickCardShell(pk, U)}
 
       <section class="card market">
         <div class="card-sub">지금 시장</div>
@@ -490,6 +489,7 @@
         <p class="note" id="rankNote">${rankNote(live, state.rankTab)}</p>
       </section>
 
+      <div class="duo">
       ${r.kr ? `<section class="card">
         <div class="card-head" style="margin-bottom:10px"><div class="card-title">국내 ETF</div></div>
         <div class="chips mini" role="tablist">${KR_TABS.map(([k, l]) =>
@@ -498,12 +498,12 @@
       </section>` : ""}
 
       ${r.us ? `<section class="card">
-        <div class="card-head" style="margin-bottom:12px"><div class="card-title">미국 ETF</div>
-          ${seg("usKey", US_TABS, state.usKey)}</div>
+        <div class="card-head" style="margin-bottom:10px"><div class="card-title">미국 ETF</div></div>
+        <div class="chips mini" role="tablist">${US_TABS.map(([k, l]) =>
+          `<button class="chip ${k === state.usKey ? "on" : ""}" data-us="${k}">${l}</button>`).join("")}</div>
         <div id="usBody">${usBody(live, state.usKey)}</div>
       </section>` : ""}
-
-      ${pickCardShell(pk, U)}
+      </div>
 
       <section class="card">
         <div class="card-head" style="margin-bottom:12px"><div><div class="card-title">요즘 트렌드</div>
@@ -859,7 +859,7 @@
   });
 
   document.addEventListener("click", ev => {
-    const t = ev.target.closest("[data-seg],[data-act],[data-tag],[data-go],[data-rank],[data-kr],[data-news]");
+    const t = ev.target.closest("[data-seg],[data-act],[data-tag],[data-go],[data-rank],[data-kr],[data-us],[data-news]");
     if (!t) return;
     if (t.dataset.go) { location.hash = t.dataset.go; return; }
     if (t.dataset.seg) {
@@ -896,6 +896,12 @@
       state.newsTag = t.dataset.news; state.newsAll = false;
       t.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === t));
       if (state.news) document.getElementById("newsBody").innerHTML = newsBody(state.news);
+      return;
+    }
+    if (t.dataset.us) {
+      state.usKey = t.dataset.us;
+      t.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === t));
+      base().then(({ live }) => { document.getElementById("usBody").innerHTML = usBody(live, state.usKey); });
       return;
     }
     if (t.dataset.kr) {
