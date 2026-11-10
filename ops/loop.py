@@ -112,6 +112,8 @@ def publish():
     html = html.replace("</head>", f"  {og_tags(render_og(), v)}\n</head>", 1)
     open(p, "w", encoding="utf-8").write(html)
     open(os.path.join(OUT, ".nojekyll"), "w").close()      # Jekyll 빌드 생략
+    with open(os.path.join(OUT, "version.json"), "w") as f:  # 열려 있는 화면이 새 배포를 알아채고 새로고침하도록
+        f.write('{"v": "%s"}' % v)
 
     repo, token = os.environ["GITHUB_REPOSITORY"], os.environ["GITHUB_TOKEN"]
     url = f"https://x-access-token:{token}@github.com/{repo}.git"

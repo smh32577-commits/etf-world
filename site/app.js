@@ -29,6 +29,23 @@
   const getPicks = () => getBriefFile("picks");
   const getNews = () => getJSON("news.json").catch(() => null);
 
+  // 새 배포 감지: 브라우저가 예전 index.html·app.js를 붙잡고 있으면 새 버전 주소로 다시 연다
+  const MY_V = (document.querySelector('script[src*="app.js"]')?.src.match(/[?&]v=([^&#]+)/) || [])[1];
+  async function checkVersion() {
+    if (!MY_V) return;
+    try {
+      const r = await fetch(`version.json?t=${Date.now()}`, { cache: "no-store" });
+      if (!r.ok) return;
+      const { v } = await r.json();
+      if (v && v !== MY_V && sessionStorage.getItem("etfworld.reloadedFor") !== v) {
+        sessionStorage.setItem("etfworld.reloadedFor", v);
+        location.replace(`${location.pathname}?v=${v}${location.hash}`);
+      }
+    } catch (_) { /* ignore */ }
+  }
+  checkVersion();
+  setInterval(checkVersion, 60000);
+
   setInterval(async () => {                       // 2분마다 최신 live.json 확인
     try {
       const prev = cache["live.json"]?.updated;
