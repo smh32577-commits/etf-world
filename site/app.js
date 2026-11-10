@@ -113,7 +113,7 @@
     const list = news.items.filter(it => f === "전체" || it.tags.includes(f));
     const n = state.newsAll ? 20 : 6;
     if (!list.length) return `<div class="empty">관련 헤드라인이 아직 없어요.</div>`;
-    return `<div class="nlist">${list.slice(0, n).map(newsLine).join("")}</div>
+    return `<div class="ngrid">${list.slice(0, n).map(newsLine).join("")}</div>
       ${list.length > 6 ? `<button class="btn-more" data-act="newsAll">${state.newsAll ? "접기" : "헤드라인 더 보기"}</button>` : ""}`;
   }
   function newsCard(news) {
@@ -237,9 +237,10 @@
     const picks = (pk?.picks || []).filter(p => U[p.code]);
     if (!picks.length) return "";
     const open = state.pickOpen;
-    const btn = `<button class="pick-cta ${open ? "on" : ""}" data-act="pickToggle" aria-expanded="${open}">
-        <span>📈 이번 주 미국·국내 ETF 수익률 비교!</span>
-        <svg viewBox="0 0 24 24" width="18" height="18" style="transform:rotate(${open ? 180 : 0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+    const btn = `<button class="pick-cta ${open ? "on" : ""}" data-act="pickToggle" aria-expanded="${open}" aria-label="이번 주 미국·국내 ETF 수익률 비교">
+        <svg class="pstar" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>
+        <span class="pcta-t"><b>이번 주 미국·국내 ETF 수익률 비교!</b><small>${open ? "눌러서 접기" : picks.map(p => `${esc(p.market)} ${esc(U[p.code].n)}`).join(" vs ")}</small></span>
+        <svg viewBox="0 0 24 24" width="18" height="18" style="flex:none;transform:rotate(${open ? 180 : 0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
     return `<div id="picks">${btn}
       ${open ? `<section class="card pick-card">
         <div class="pick-bar"><div><div class="card-title">이번 주 추천 ETF</div><div class="card-sub">${esc(pk.week || "")} 선정 · AI 선정, 투자 권유 아님</div></div>
@@ -341,7 +342,7 @@
     const note = key === "d10"
       ? `${trendBasis(live)}최근 10거래일 수익률이에요.`
       : "오늘 등락률이에요. 거래대금 1억 이상만 넣었어요.";
-    return `<div class="list">${rows}</div><p class="note">${note} 미국 상장 종목 비중 50% 이상이거나 이름에 '미국'이 들어간 ETF ${fmt(us.n)}개 중, 레버리지·인버스·채권형과 시총 100억 미만은 제외했어요.</p>`;
+    return `<div class="tiles">${rows}</div><details class="tnote"><summary>기준 보기</summary><p class="note">${note} 미국 상장 종목 비중 50% 이상이거나 이름에 '미국'이 들어간 ETF ${fmt(us.n)}개 중, 레버리지·인버스·채권형과 시총 100억 미만은 제외했어요.</p></details>`;
   }
 
   // ── 국내 ETF ──────────────────────────────────────────
@@ -371,7 +372,7 @@
       new: "가장 최근에 상장한 ETF예요. 오른쪽은 지금 가격과 오늘 등락률이에요.",
       flow: `${ymd(kr.flowDate)} 외국인과 기관이 함께 순매수한 ETF를 합산 금액(순매수 수량 × 종가) 순으로 보여줘요. 금리·채권형, 레버리지·인버스는 제외했어요. 기관 매매에는 유동성공급자(LP) 물량이 섞여 있어요.`,
     }[key];
-    return `<div class="list">${rows}</div><p class="note">${note}</p>`;
+    return `<div class="tiles">${rows}</div><details class="tnote"><summary>기준 보기</summary><p class="note">${note}</p></details>`;
   }
 
   // ── 홈 ────────────────────────────────────────────────
