@@ -471,3 +471,17 @@ html.og .hc .hv { font-size: 16px; }
 .tiles .row { min-width: 0; width: auto; margin: 0 !important; }
 .ngrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 @media (min-width: 760px) { .tiles { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .ngrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* 좌우 칸(국내·미국 ETF): 이름이 잘리지 않게 이름 아래에 수익률 */
+.duo { gap: 8px; }
+.duo > .card { padding: 14px 10px; }
+.duo .card-title { font-size: 16px; }
+.duo .chips.mini .chip { font-size: 11px; padding: 5px 8px; }
+.duo .tiles .row { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "rank name" "rank side"; column-gap: 7px; row-gap: 4px; align-items: start; padding: 8px 9px; }
+.duo .tiles .rank { grid-area: rank; width: auto; font-size: 12px; line-height: 1.35; }
+.duo .tiles .row-main { grid-area: name; }
+.duo .tiles .row-name { font-size: 12px; font-weight: 600; line-height: 1.35; display: block; -webkit-line-clamp: unset; overflow: visible; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+.duo .tiles .row-side { grid-area: side; justify-self: start; text-align: left; display: flex; align-items: baseline; gap: 6px; }
+.duo .tiles .badge-chg { font-size: 12px; padding: 2px 6px; }
+.duo .tiles .row-price { font-size: 11px; } .duo .tiles .row-chg { font-size: 11px; }
+@media (min-width: 760px) { .duo .tiles .row-name { font-size: 13px; } }
