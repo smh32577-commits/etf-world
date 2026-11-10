@@ -4,7 +4,7 @@
 
   const $app = document.getElementById("app");
   const cache = {};
-  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false, newsTag: "전체", newsAll: false, pickRange: "3M" };
+  const state = { hotDir: "up", homeHot: "up", today: "gainers", trendKey: "w1", usKey: "d10", krTab: "best", find: { q: "", tag: "전체", sort: "am", limit: 40 }, chartRange: "3M", holdAll: false, newsTag: "전체", newsAll: false, pickRange: "3M", pickOpen: false };
 
   // ── 데이터 ─────────────────────────────────────────────
   async function getJSON(path, { fresh = false } = {}) {
@@ -233,13 +233,20 @@
 
   // ── 이번 주 추천 ETF (briefs/picks.json, 매주 월요일 오전 10시 선정) ──────────
   const PICK_COLORS = ["var(--up)", "var(--accent)"];
-  function pickCardShell(pk) {
-    if (!pk?.picks?.length) return "";
+  function pickCardShell(pk, U) {
+    const picks = (pk?.picks || []).filter(p => U[p.code]);
+    if (!picks.length) return "";
+    const open = state.pickOpen;
     return `<section class="card" id="picks">
-      <div class="card-head" style="margin-bottom:10px"><div><div class="card-title">이번 주 추천 ETF</div>
-        <div class="card-sub">${esc(pk.week || "")} 선정 · AI 선정, 투자 권유 아님</div></div></div>
-      ${seg("pickRange", [["1M", "1개월"], ["3M", "3개월"], ["6M", "6개월"], ["1Y", "1년"]], state.pickRange)}
-      <div id="pickBody">${skeleton(3)}</div>
+      <button class="pick-toggle" data-act="pickToggle" aria-expanded="${open}">
+        <div class="pick-tl"><div class="card-title">이번 주 추천 ETF</div>
+          <div class="pick-mini">${picks.map((p, j) => `<span><i style="background:${PICK_COLORS[j]}"></i>${esc(p.market)} · ${esc(U[p.code].n)}</span>`).join("")}</div></div>
+        <span class="pick-btn">${open ? "접기" : "비교 보기"}<svg viewBox="0 0 24 24" width="16" height="16" style="transform:rotate(${open ? 180 : 0}deg)"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      ${open ? `<div class="pick-open">
+        <div class="pick-bar"><span class="card-sub">${esc(pk.week || "")} 선정 · AI 선정, 투자 권유 아님</span>
+          ${seg("pickRange", [["1M", "1개월"], ["3M", "3개월"], ["6M", "6개월"], ["1Y", "1년"]], state.pickRange)}</div>
+        <div id="pickBody">${skeleton(3)}</div></div>` : ""}
     </section>`;
   }
   async function drawPicks() {
@@ -250,60 +257,60 @@
     if (!picks.length) { el.innerHTML = `<div class="empty">이번 주 추천이 아직 없어요.</div>`; return; }
     const ds = await Promise.all(picks.map(p => getJSON(`etf/${p.code}.json`).catch(() => null)));
     const days = { "1M": 22, "3M": 66, "6M": 128, "1Y": 260 }[state.pickRange];
-    // 날짜를 맞춘 누적 수익률(%) + 오늘 현재가
+    const todayK = (live.updated || "").slice(0, 10).replace(/-/g, "");
     const series = ds.map((d, i) => {
       const m = new Map((d?.chart || []).map(p => [p[0], p[1]]));
       const e = live.etfs[picks[i].code];
-      const todayK = (live.updated || "").slice(0, 10).replace(/-/g, "");
       if (e?.p && live.mode === "official" && !m.has(todayK)) m.set(todayK, e.p);
       return m;
     });
-    let dates = [...series[0].keys()].filter(k => series.every(m => m.has(k))).sort().slice(-days);
+    const dates = [...series[0].keys()].filter(k => series.every(m => m.has(k))).sort().slice(-days);
     const lines = series.map(m => { const b0 = m.get(dates[0]); return dates.map(k => (m.get(k) / b0 - 1) * 100); });
-    const W = 600, H = 200, P = 10;
+    const W = 600, H = 170, P = 10;
     const all = lines.flat(), min = Math.min(0, ...all), max = Math.max(0, ...all), span = max - min || 1;
     const x = i => (i / Math.max(dates.length - 1, 1)) * W, y = v => P + (1 - (v - min) / span) * (H - P * 2);
     const paths = lines.map((l, j) => `<path d="${l.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")}" fill="none" stroke="${PICK_COLORS[j]}" stroke-width="2.2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`).join("");
-    const legend = picks.map((p, j) => `<span class="pleg"><i style="background:${PICK_COLORS[j]}"></i>${esc(p.market)} · ${esc(U[p.code].n)} <b class="${cls(lines[j].at(-1))}">${pct(lines[j].at(-1))}</b></span>`).join("");
-    const chart = dates.length > 1 ? `<div class="chart-wrap"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="추천 ETF 수익률 비교">
+    const chart = dates.length > 1 ? `<div class="chart-wrap pick-chart"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="추천 ETF 수익률 비교">
         <line x1="0" x2="${W}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/>
         ${paths}
         <line id="pcx" y1="0" y2="${H}" stroke="var(--text-3)" stroke-width="1" vector-effect="non-scaling-stroke" visibility="hidden"/></svg>
         <div class="chart-tip" id="ptip" style="visibility:hidden"></div></div>
-      <div class="pleg-wrap">${legend}</div>
-      <div class="chart-foot"><span class="count">${fmtDate(dates[0])} ~ ${fmtDate(dates.at(-1))} · 같은 날 100으로 맞춘 누적 수익률</span></div>`
+      <div class="chart-foot"><span class="count">${fmtDate(dates[0])} ~ ${fmtDate(dates.at(-1))} 누적 수익률</span></div>`
       : `<div class="empty">차트 데이터가 없어요.</div>`;
 
-    const block = (p, d, j) => {
+    const box = (p, d, j) => {
       const u = U[p.code], m = d?.meta || {}, e = live.etfs[p.code] || {};
       const hs = (d?.holdings || []).filter(h => h.w > 0).slice(0, 5), maxW = Math.max(...hs.map(h => h.w), 1);
       const since = p.p0 && e.p ? (e.p / p.p0 - 1) * 100 : null;
-      return `<div class="pick">
-        <a class="pick-h" href="#/etf/${p.code}"><span class="pdot" style="background:${PICK_COLORS[j]}"></span>
-          <div style="min-width:0;flex:1"><div class="pick-m">${esc(p.market)} 추천 · ${p.code}</div><div class="pick-n">${esc(u.n)}</div></div>
-          <div class="row-side">${priceSide(e.p, e.ch)}</div></a>
-        <div class="pick-t">${esc(p.title)}</div>
-        <p class="pick-s">${esc(p.summary)}</p>
-        <ul class="bpoints">${(p.points || []).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-        <div class="kv pick-kv">
-          ${kv("운용사", esc(m.issuer || u.is || "—"))}
-          ${kv("기초지수", esc(m.base || "—"))}
-          ${kv("총보수", m.fee != null ? `${m.fee.toFixed(4).replace(/0+$/, "")}%` : "—")}
-          ${kv("순자산", eok(m.aum))}
-          ${kv("상장일", m.listed ? `${m.listed.slice(0, 4)}.${m.listed.slice(4, 6)}.${m.listed.slice(6)}` : "—")}
-          ${kv("배당수익률", m.divYield != null ? `${m.divYield}%` : "—")}
-          ${kv("1개월 · 3개월", `<span class="${cls(d?.returns?.M1)}">${pct(d?.returns?.M1, 1)}</span> · <span class="${cls(d?.returns?.M3)}">${pct(d?.returns?.M3, 1)}</span>`)}
-          ${kv("선정 이후", since != null ? `<span class="${cls(since)}">${pct(since)}</span>` : "—")}
+      const ret = lines[j]?.at(-1);
+      const row = (k, v) => `<div class="pb-kv"><span>${k}</span><b>${v}</b></div>`;
+      return `<div class="pbox" style="--pc:${PICK_COLORS[j]}">
+        <a class="pb-head" href="#/etf/${p.code}">
+          <div class="pb-mk"><i></i>${esc(p.market)} · ${p.code}</div>
+          <div class="pb-name">${esc(u.n)}</div>
+          <div class="pb-price">${fmt(e.p)}원 <span class="${cls(e.ch)}">${pct(e.ch)}</span></div></a>
+        <div class="pb-ret"><span>${state.pickRange.replace("M", "개월").replace("1Y", "1년")}</span><b class="${cls(ret)}">${pct(ret)}</b></div>
+        <div class="pb-title">${esc(p.title)}</div>
+        <p class="pb-sum">${esc(p.summary)}</p>
+        <div class="pb-list">
+          ${row("운용사", esc((m.issuer || u.is || "—").replace("자산운용", "").replace("(ETF)", "")))}
+          ${row("총보수", m.fee != null ? `${m.fee.toFixed(4).replace(/0+$/, "")}%` : "—")}
+          ${row("순자산", eok(m.aum))}
+          ${row("배당", m.divYield != null ? `${m.divYield}%` : "—")}
+          ${row("선정 이후", since != null ? `<span class="${cls(since)}">${pct(since)}</span>` : "—")}
         </div>
-        ${hs.length ? `<div class="pick-sub">편입 상위 ${hs.length}종목 <span class="count">${esc(d.hDate || "")} 기준 · 전체 ${d.holdings.filter(h => h.w > 0).length}종목</span></div>
-          ${hs.map(h => `<div class="hrow"><div style="flex:1;min-width:0"><div class="hname">${esc(h.n)}</div>
-            <div class="hbar" style="width:${(h.w / maxW) * 100}%"></div></div><div class="hw">${h.w.toFixed(2)}%</div></div>`).join("")}` : ""}
-        ${p.watch ? `<div class="bwatch"><b>볼 포인트</b> ${esc(p.watch)}</div>` : ""}
-        ${(p.sources || []).length ? `<div class="bsrc">${p.sources.map(x => `<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a>`).join("")}</div>` : ""}
+        ${hs.length ? `<div class="pb-sub">편입 상위 ${hs.length}</div>
+          ${hs.map(h => `<div class="pb-h"><div class="pb-hn"><span>${esc(h.n)}</span><b>${h.w.toFixed(1)}%</b></div>
+            <div class="pb-hb" style="width:${(h.w / maxW) * 100}%"></div></div>`).join("")}` : ""}
+        ${(p.points || []).length ? `<details class="pb-more"><summary>고른 이유 더 보기</summary>
+          <ul class="bpoints">${p.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+          ${p.watch ? `<div class="bwatch"><b>볼 포인트</b> ${esc(p.watch)}</div>` : ""}
+          ${(p.sources || []).length ? `<div class="bsrc">${p.sources.map(x => `<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a>`).join("")}</div>` : ""}
+        </details>` : ""}
       </div>`;
     };
-    el.innerHTML = chart + picks.map((p, j) => block(p, ds[j], j)).join("")
-      + `<p class="note">${esc(pk.note || "")}${pk.note ? " " : ""}매주 월요일 오전 10시에 국내 주식형 1개, 미국 투자 1개를 AI가 골라요. 참고용이며 투자 권유가 아니에요.</p>`;
+    el.innerHTML = chart + `<div class="pgrid">${picks.map((p, j) => box(p, ds[j], j)).join("")}</div>`
+      + `<p class="note">매주 첫 영업일 오전 10시에 국내 주식형 1개, 미국 투자 1개를 AI가 골라요. ${pk.dataAsOf ? hhmm(pk.dataAsOf) + " 데이터 기준. " : ""}참고용이며 투자 권유가 아니에요.</p>`;
 
     const wrap = el.querySelector(".chart-wrap");
     if (!wrap) return;
@@ -496,7 +503,7 @@
         <div id="usBody">${usBody(live, state.usKey)}</div>
       </section>` : ""}
 
-      ${pickCardShell(pk)}
+      ${pickCardShell(pk, U)}
 
       <section class="card">
         <div class="card-head" style="margin-bottom:12px"><div><div class="card-title">요즘 트렌드</div>
@@ -914,6 +921,16 @@
       return;
     }
     const act = t.dataset.act;
+    if (act === "pickToggle") {
+      state.pickOpen = !state.pickOpen;
+      Promise.all([getPicks(), base()]).then(([pk, { U }]) => {
+        const old = document.getElementById("picks");
+        if (!old) return;
+        old.outerHTML = pickCardShell(pk, U);
+        if (state.pickOpen) drawPicks();
+      });
+      return;
+    }
     if (act === "summary") t.classList.toggle("open");
     else if (act === "fav") { toggleFav(t.dataset.code); t.classList.toggle("on", isFav(t.dataset.code)); }
     else if (act === "more") { state.find.limit += 40; base().then(({ live, uni }) => drawResults(live, uni)); }
