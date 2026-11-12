@@ -16,7 +16,7 @@ site/                빌드 없는 정적 SPA (index.html, app.js, styles.css)
   briefs/            Claude가 쓰는 브리핑 JSON. git에 올림 (trends.json 매 영업일 10시, picks.json 매주 첫 영업일 10시)
     latest.json, index.json, YYYY-MM-DD-{pre|mid|close}.json, trends.json
 .github/workflows/update.yml   매시 05분 예약 실행 + push 시 실행
-ops/loop.py          Actions 안에서 news.py·live.py를 10분 간격으로 돌리고 gh-pages 브랜치로 배포 (예약 실행이면 6회, 그 외 1회)
+ops/loop.py          Actions 안에서 news.py·live.py를 10분 간격으로 돌리고 gh-pages 브랜치로 배포 (예약·push 모두 6회. 새 실행이 오면 이전 반복은 취소)
 ops/routines.md      장 전·장중(11시·14시)·장 마감 자동 브리핑(Claude 예약 실행) 설정 원본
 ```
 

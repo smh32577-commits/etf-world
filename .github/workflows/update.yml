@@ -77,8 +77,11 @@ jobs:
             site/data/stocks.json
           key: daily-v5-${{ steps.kst.outputs.date }}
 
-      - name: 실시간 추정 + 배포 (예약 실행이면 10분 간격 6회)
+      # push(브리핑 커밋 등)도 6회 반복한다. concurrency 때문에 push 실행이 진행 중이던
+      # 예약 반복을 취소하므로, 1회만 돌면 다음 정시 05분까지 시세 갱신이 끊긴다.
+      # 다음 예약 실행이 오면 이 반복은 자동으로 정리된다.
+      - name: 실시간 추정 + 배포 (10분 간격 6회)
         env:
-          LOOPS: ${{ github.event_name == 'schedule' && '6' || '1' }}
+          LOOPS: "6"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python ops/loop.py
