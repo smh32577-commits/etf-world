@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-10-12T08:00:00+09:00",
+  "dataAsOf": "2026-10-12T08:00:00+09:00",
+  "session": "장 전",
+  "market": {
+    "headline": "연휴 사이 미국 반도체 약세·소프트웨어 급반등, 오늘 미국 ETF는 업종별로 엇갈린 출발",
+    "points": [
+      "국내가 쉰 9일까지 미국장이 두 번 열렸어요. 8일엔 OpenAI 매출이 기존 추정보다 약 200억달러 적다는 보도에 기술주가 밀렸고, 9일엔 유가·국채금리가 안정되며 S&P 500 +0.59%, 나스닥 +0.64%로 반등했어요.",
+      "이틀 합산으로 반도체는 약세였어요. 엔비디아 -3.4%, 마이크론 -5.5%, AMD -5.8%, 브로드컴 -3.8%. 반면 스노우플레이크 +10.9%, 팔란티어 +7.5%, 크라우드스트라이크 +3.8% 등 소프트웨어·보안은 강했어요.",
+      "원/달러는 8일 15:30 1,338.5원에서 1,341.3원(+0.2%)으로 올라 환헤지하지 않은 미국 ETF에 소폭 플러스예요.",
+      "국내는 지난주 코스피가 5% 넘게 빠지는 동안 외국인이 약 6.3조원을 순매도했어요. 미국 반도체 약세가 겹쳐 반도체 대형주 중심의 약세 출발에 유의해야 해요(추정)."
+    ]
+  },
+  "items": [
+    {
+      "codes": ["0041D0", "418670"],
+      "title": "미국 AI 소프트웨어 · 사이버보안",
+      "tone": "up",
+      "summary": "추정 iNAV 기준 전 거래일 종가 대비 +4.5~5.5%. 오늘 가장 강하게 출발할 후보예요.",
+      "points": [
+        "KODEX 미국AI소프트웨어TOP10은 팔란티어(+7.5%)·스노우플레이크(+10.9%)·팔로알토(+3.3%) 덕에 예상 +5.5%예요.",
+        "TIGER 글로벌AI사이버보안은 지스케일러(+9.6%)·옥타(+6.6%) 등이 오르며 예상 +4.5%예요.",
+        "'AI가 소프트웨어를 대체한다'는 우려가 누그러지며 보안주는 사상 최고가권이에요."
+      ],
+      "watch": "시초가가 추정치보다 높게 뜨면 이미 기대가 반영된 것. 갭 이후 추가 매수세가 붙는지 확인하세요.",
+      "sources": [
+        { "t": "Yahoo Finance · Stocks rise as oil prices, Treasury yields stabilize (Oct 9)", "u": "https://finance.yahoo.com/markets/stocks/articles/markets-news-oct-9-2026-105547352.html" },
+        { "t": "Calcalist · Palo Alto, CrowdStrike and Fortinet hit records", "u": "https://www.calcalistech.com/ctechnews/article/lbovgj3wu" }
+      ]
+    },
+    {
+      "codes": ["381180", "494340", "0142D0"],
+      "title": "미국 반도체 · AI 인프라",
+      "tone": "down",
+      "summary": "추정 iNAV 기준 -3.6~-5.2%. 연휴 동안 쌓인 반도체 약세가 한꺼번에 반영될 수 있어요.",
+      "points": [
+        "TIGER 미국필라델피아반도체나스닥 예상 -3.6% (마이크론 -5.5%, 엔비디아 -3.4%, 인텔 -7.7%).",
+        "ACE 글로벌AI맞춤형반도체 예상 -5.2% (ARM -9.7%), TIGER 미국AI데이터센터TOP4Plus 예상 -4.4% (코어위브 -6.7%, 아이렌 -9.0%).",
+        "OpenAI 매출 논란으로 AI 인프라 투자 지속성에 대한 의구심이 반도체·데이터센터주에 집중됐어요."
+      ],
+      "watch": "이번 주 시작되는 미국 실적 시즌과 AI 설비투자 가이던스.",
+      "sources": [
+        { "t": "Market Scholars · OpenAI Relief Meets a Split Rally (Oct 9)", "u": "https://www.marketscholars.com/market-outlook-october-9-2026/" },
+        { "t": "TheStreet · Stock Market Today (Oct. 9, 2026)", "u": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-09-2026" }
+      ]
+    },
+    {
+      "codes": ["133690", "379810", "360750"],
+      "title": "미국 대표지수 (나스닥100 · S&P500)",
+      "tone": "flat",
+      "summary": "지수는 올랐지만 비중 큰 반도체가 빠져 나스닥100 ETF는 예상 -0.9%, S&P500 ETF는 보합권이에요.",
+      "points": [
+        "나스닥100 ETF는 엔비디아·마이크론·AMD 하락이 마이크로소프트(+1.0%)·아마존(+1.0%) 상승보다 커요.",
+        "S&P500 ETF는 반도체 약세를 에너지·소프트웨어가 상쇄해 예상 -0.1% 수준이에요(구성종목 반영률 69%라 오차가 있을 수 있어요).",
+        "환율 상승(+0.2%)이 하락폭을 조금 줄여줘요."
+      ],
+      "watch": "이번 주 미국 9월 CPI·PPI. 물가가 꺾이면 금리 안정과 함께 기술주 반등 여지가 커져요.",
+      "sources": [
+        { "t": "Washington Post · How major US stock indexes fared Friday 10/9/2026", "u": "https://www.washingtonpost.com/business/2026/10/09/wall-street-stocks-dow-nasdaq/63e004dc-c41e-11f1-8170-681419af1cc9_story.html" }
+      ]
+    },
+    {
+      "codes": ["474800"],
+      "title": "미국 원유 · 에너지",
+      "tone": "up",
+      "summary": "유가 상승에 엑슨모빌(+2.9%)·셰브론(+3.3%)이 올라 예상 +2.7%예요.",
+      "points": [
+        "8일 유가 급등이 에너지주를 끌어올렸고, 9일 유가가 안정된 뒤에도 상승분을 지켰어요.",
+        "에너지는 반도체 약세장에서 상대적으로 강한 업종이었어요."
+      ],
+      "watch": "유가 방향. 유가가 다시 오르면 금리·물가 부담으로 이어질 수 있어요.",
+      "sources": [
+        { "t": "Yahoo Finance · Stock market today (Oct 9)", "u": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-9-dow-sp-500-nasdaq-080148117.html" }
+      ]
+    },
+    {
+      "codes": ["069500", "102110"],
+      "title": "국내 대표지수 (KODEX 200 · TIGER 200)",
+      "tone": "down",
+      "summary": "반도체 비중이 60%가 넘어, 미국 반도체 약세와 외국인 매도 흐름이 이어지면 부담이 커요(추정).",
+      "points": [
+        "지난주 코스피는 7,003에서 6,626으로 5.4% 하락했고 외국인은 약 6.3조원을 순매도했어요.",
+        "삼성전자 3분기 잠정 영업이익은 107.4조원으로 기대치를 채웠지만, 지난주 이미 주가에 반영됐다는 시각이 많아요.",
+        "국내 ETF는 장 마감 후 가격이 고정돼 추정 iNAV가 없어요. 미국 반도체 흐름이 가장 중요한 참고 지표예요."
+      ],
+      "watch": "장 초반 외국인 순매도 규모와 SK하이닉스 흐름. 증권가 이번 주 코스피 예상 범위는 6,450~7,100이에요.",
+      "sources": [
+        { "t": "파이낸셜뉴스 · 코스피 지난주 흐름과 이번 주 반등 변수", "u": "https://www.fnnews.com/news/202610120939067381" }
+      ]
+    }
+  ]
+}
